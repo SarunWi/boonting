@@ -1,44 +1,45 @@
 package controller;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import dto.SalesOrder;
+import dto.SalesOrderResp;
 
 public class SalesOrderSrvc {
-	private int salesOrderId;
-	private String salesOrderRemark;
-	private String salesOrderStatus;
-	private String createdBy;
-	private Date createdDate;
+	private int page;
+	private int rowsperpage;
+	private String orderfield;
+		
+	public SalesOrderSrvc() {}
 	
+	public SalesOrderResp getSalesOrder(int pageTmp, int rowsperpageTmp, String orderfieldTmp) {
+		SalesOrderResp salesOrderResp = new SalesOrderResp();
+		List<SalesOrder> salesOrderList = getSalesOrderList(pageTmp, rowsperpageTmp, orderfieldTmp);
+		
+		return salesOrderResp;
+	}
 	
+	private List<SalesOrder> getSalesOrderList(int pageTmp, int rowsperpageTmp, String orderfieldTmp) {
+		
+	}
 	
-	public int getSalesOrderId() {
-		return salesOrderId;
+	public int getPage() {
+		return page;
 	}
-	public void setSalesOrderId(int salesOrderId) {
-		this.salesOrderId = salesOrderId;
+	public void setPage(int page) {
+		this.page = page;
 	}
-	public String getSalesOrderRemark() {
-		return salesOrderRemark;
+	public int getRowsperpage() {
+		return rowsperpage;
 	}
-	public void setSalesOrderRemark(String salesOrderRemark) {
-		this.salesOrderRemark = salesOrderRemark;
+	public void setRowsperpage(int rowsperpage) {
+		this.rowsperpage = rowsperpage;
 	}
-	public String getSalesOrderStatus() {
-		return salesOrderStatus;
+	public String getOrderfield() {
+		return orderfield;
 	}
-	public void setSalesOrderStatus(String salesOrderStatus) {
-		this.salesOrderStatus = salesOrderStatus;
-	}
-	public String getCreatedBy() {
-		return createdBy;
-	}
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+	public void setOrderfield(String orderfield) {
+		this.orderfield = orderfield;
 	}
 }

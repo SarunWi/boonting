@@ -16,7 +16,7 @@ public class ApplicationConfig extends Application {
 	private void addResourcesClasses(Set<Class<?>> resources) {
 //		resources.add(ws.CategoryRestful.class);
 		resources.add(ws.LoginRestful.class);
-//		resources.add(ws.SalesOrderRestful.class);
+		resources.add(ws.SalesOrderRestful.class);
 //		resources.add(ws.LocationRestful.class);
 	}
 }
