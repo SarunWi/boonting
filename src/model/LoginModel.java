@@ -15,16 +15,17 @@ public class LoginModel {
 		ResultSet rs = null;
 		int userExist = -1;
 		try {
-			String sql = "select count(*) from boonting.user where username = ? and password = ?";
+			String sql = "select count(*) from boonting.user where username = ? and user_password = ?";
 			
 			callSt = conn.prepareCall(sql);
 			callSt.setString(1, username);
 			callSt.setString(2, password);
 			
-			rs = callSt.executeQuery(sql);
+			rs = callSt.executeQuery();
 			if (rs != null && rs.next()) {
 				userExist = rs.getInt(1);
 			}
+			System.out.println("rs: " + rs.toString());
 			
 		} catch (SQLException ex) {
 			ex.printStackTrace();

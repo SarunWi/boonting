@@ -13,14 +13,14 @@ public class SalesOrderSrvc {
 		
 	public SalesOrderSrvc() {}
 	
-	public SalesOrderResp getSalesOrder(int pageTmp, int rowsperpageTmp, String orderfieldTmp) {
+	public SalesOrderResp getSalesOrder(int page, int rowsperpage, String orderfield) {
 		SalesOrderResp salesOrderResp = new SalesOrderResp();
-		List<SalesOrder> salesOrderList = getSalesOrderList(pageTmp, rowsperpageTmp, orderfieldTmp);
+		List<SalesOrder> salesOrderList = getSalesOrderList(page, rowsperpage, orderfield);
 		
 		return salesOrderResp;
 	}
 	
-	private List<SalesOrder> getSalesOrderList(int pageTmp, int rowsperpageTmp, String orderfieldTmp) {
+	private List<SalesOrder> getSalesOrderList(int page, int rowsperpage, String orderfield) {
 		
 	}
 	
