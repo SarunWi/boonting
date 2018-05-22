@@ -13,6 +13,8 @@ public class SalesOrder {
 	private String salesOrderStatus;
 	private String createdBy;
 	private Date createdDate;
+	private String stateName;
+	private int shippingId;
 	
 	@XmlElement(name = "salesOrderId")
 	public int getSalesOrderId() {
@@ -47,21 +49,39 @@ public class SalesOrder {
 	}
 	
 	@XmlElement(name = "createdBy")
-	public Date getCreated_Date() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreated_Date(Date created_Date) {
-		this.createdDate = created_Date;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+	
+	@XmlElement(name = "stateName")
+	public String getStateName() {
+		return stateName;
+	}
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
+	
+	@XmlElement(name = "shippingId")
+	public int getShippingId() {
+		return shippingId;
+	}
+	public void setShippingId(int shippingId) {
+		this.shippingId = shippingId;
 	}
 	
 	public SalesOrder(int salesOrderId, String salesOrderRemark, String salesOrderStatus, String createdBy,
-			Date createdDate) {
+			Date createdDate, String stateName, int shippingId) {
 		super();
 		this.salesOrderId = salesOrderId;
 		this.salesOrderRemark = salesOrderRemark;
 		this.salesOrderStatus = salesOrderStatus;
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
+		this.stateName = stateName;
+		this.shippingId = shippingId;
 	}
 	
 	public SalesOrder() {

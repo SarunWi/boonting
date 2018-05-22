@@ -20,10 +20,10 @@ public class LoginSrvc {
 		
 		Response loginResp = new Response();
 		if(userExist == 1) {
-			loginResp.setSuccess(true);
+			loginResp.setIsSuccess(true);
 			loginResp.setErrorMessage("");
 		} else {
-			loginResp.setSuccess(false);
+			loginResp.setIsSuccess(false);
 			loginResp.setErrorMessage("invalid username or password");
 		}
 		

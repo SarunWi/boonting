@@ -1,5 +1,9 @@
 package dto;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "req")
 public class SalesOrderRequest {
 	private int id;
 	private String status;
@@ -7,6 +11,60 @@ public class SalesOrderRequest {
 	private int page;
 	private int rowsperpage;
 	private String order;
+
+	@XmlElement(name = "id")
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	@XmlElement(name = "status")
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@XmlElement(name = "location")
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	@XmlElement(name = "page")
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	@XmlElement(name = "rowsperpage")
+	public int getRowsperpage() {
+		return rowsperpage;
+	}
+
+	public void setRowsperpage(int rowsperpage) {
+		this.rowsperpage = rowsperpage;
+	}
+
+	@XmlElement(name = "order")
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
 	
 	public SalesOrderRequest(int id, String status, String location) {
 		super();
@@ -27,51 +85,17 @@ public class SalesOrderRequest {
 		this.id = id;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
+	public SalesOrderRequest(int id, String status, String location, int page, int rowsperpage, String order) {
+		super();
 		this.id = id;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
 		this.page = page;
-	}
-
-	public int getRowsperpage() {
-		return rowsperpage;
-	}
-
-	public void setRowsperpage(int rowsperpage) {
 		this.rowsperpage = rowsperpage;
-	}
-
-	public String getOrder() {
-		return order;
-	}
-
-	public void setOrder(String order) {
 		this.order = order;
+	}
+
+	public SalesOrderRequest() {
+		super();
 	}
 }

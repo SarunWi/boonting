@@ -4,10 +4,10 @@ public class Response {
 	private boolean isSuccess;
 	private String errorMessage;
 	
-	public boolean isSuccess() {
+	public boolean getIsSuccess() {
 		return isSuccess;
 	}
-	public void setSuccess(boolean isSuccess) {
+	public void setIsSuccess(boolean isSuccess) {
 		this.isSuccess = isSuccess;
 	}
 	public String getErrorMessage() {

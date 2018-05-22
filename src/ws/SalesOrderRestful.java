@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -12,23 +14,26 @@ import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import controller.SalesOrderSrvc;
-import dto.SalesOrderRequest;
+import dto.Response;
+import dto.SalesOrder;
 import dto.SalesOrderResp;
 
 @Path("salesorder")
 public class SalesOrderRestful {
 	
 	@GET
-	@Path("getSalesorders")
+	@Path("getSalesorders/{page: .*}/{rowsperpage: .*}/{order: .*}")
 	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getSalesorders(SalesOrderRequest req) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSalesorders(@PathParam("page") int pageParam,
+            @PathParam("rowsperpage") int rowsperpageParam,
+            @PathParam("order") String orderParam) {
 		
-		System.out.println("getSalesorders request|page: " + req.getPage() + "|rowsperpage: " + req.getRowsperpage() + "|order: " + req.getOrder());
+		System.out.println("getSalesorders request|page: " + pageParam + "|rowsperpage: " + rowsperpageParam + "|order: " + orderParam);
 
-		int page = String.valueOf(req.getPage()) == "" ? req.getPage() : 1; 
-		int rowsperpage = String.valueOf(req.getRowsperpage()) == "" ? req.getRowsperpage() : 100;
-		String orderfield = req.getOrder();
+		int page = pageParam != 0 ? pageParam : 1; 
+		int rowsperpage = rowsperpageParam != 0 ? rowsperpageParam : 100;
+		String orderfield = orderParam.equals("") ? "sales_order_id": orderParam;
 		
 		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
 		SalesOrderResp salesOrderResp = salesOrderSrvc.getSalesOrder(page, rowsperpage, orderfield);
@@ -47,25 +52,40 @@ public class SalesOrderRestful {
 		return json;
 	}
 	
-//	@GET
-//	@Path("getSalesOrderListById")
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public void getSalesOrderListById() {
-//		//TODO : Get Sales Order List by id
-//		
-//		List<SalesOrder> salesOrderList = new ArrayList<SalesOrder>();
-//		
-//	}
-//	
-//	@POST
-//	@Path("getSalesOrderListByState")
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public void getSalesOrderListByState() {
-//		//TODO : Get Sales Order List by id
-//		
-//		List<SalesOrder> salesOrderList = new ArrayList<SalesOrder>();
-//		
-//	}
+	@GET
+	@Path("getSalesOrderById/{id}")
+	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSalesOrderListById(@PathParam("id") int id) {
+		System.out.println("getSalesOrderListById request|id: " + id);
+		
+		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
+		SalesOrderResp salesOrderResp = salesOrderSrvc.getSalesOrderById(id);
+		
+		String json  = "";
+		ObjectMapper mapper = new ObjectMapper();
+        try {
+            json = mapper.writeValueAsString(salesOrderResp);
+            System.out.println("JSON = " + json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+		return json;
+	}
+	
+	@POST
+	@Path("updateSalesOrder")
+	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateSalesOrder(SalesOrder salesOrder) {
+		System.out.println("updateSalesOrder ");
+		Response resp = new Response();
+		
+		return resp;
+	}
 //	
 //	@POST
 //	@Path("updateStatus")

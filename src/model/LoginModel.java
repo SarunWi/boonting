@@ -25,7 +25,6 @@ public class LoginModel {
 			if (rs != null && rs.next()) {
 				userExist = rs.getInt(1);
 			}
-			System.out.println("rs: " + rs.toString());
 			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
