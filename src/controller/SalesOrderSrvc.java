@@ -1,8 +1,9 @@
 package controller;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import dto.Response;
 import dto.SalesOrder;
 import dto.SalesOrderResp;
 import model.SalesOrderModel;
@@ -28,7 +29,6 @@ public class SalesOrderSrvc {
 	
 	public SalesOrderResp getSalesOrderById(int id) {
 		SalesOrderModel salesOrderModel = new SalesOrderModel();
-		
 		SalesOrderResp salesOrderResp = new SalesOrderResp();
 		
 		salesOrderResp.setRecords(getSalesOrderListById(id, salesOrderModel));
@@ -38,10 +38,58 @@ public class SalesOrderSrvc {
 		return salesOrderResp;
 	}
 	
+	public Response updateSalesOrder(SalesOrder salesOrder) {
+		SalesOrderModel salesOrderModel = new SalesOrderModel();
+		Response resp = new Response();
+		int updateSuccess = salesOrderModel.updateSalesOrder(salesOrder);
+		
+		if(updateSuccess == 1) {
+			resp.setIsSuccess(true);
+			resp.setErrorMessage("");
+		} else {
+			resp.setIsSuccess(false);
+			resp.setErrorMessage("Cannot update sales order status");
+		}
+		return resp;
+	}
+	
+	public Response insertSalesOrder(SalesOrder salesOrder) {
+		SalesOrderModel salesOrderModel = new SalesOrderModel();
+		Response resp = new Response();
+		int updateSuccess = salesOrderModel.insertSalesOrder(salesOrder);
+		
+		if(updateSuccess == 1) {
+			resp.setIsSuccess(true);
+			resp.setErrorMessage("");
+		} else {
+			resp.setIsSuccess(false);
+			resp.setErrorMessage("Cannot update sales order status");
+		}
+		return resp;
+	}
+	
+	public SalesOrderResp getSalesOrderGroupByLocation(Date fromDate, Date toDate) {
+		SalesOrderModel salesOrderModel = new SalesOrderModel();
+		SalesOrderResp salesOrderResp = new SalesOrderResp();
+		
+		salesOrderResp.setRecords(salesOrderModel.getSalesOrderGroupByLocation(fromDate, toDate));
+//		salesOrderResp.setTotalRecords(getTotalRecord(id, salesOrderModel));
+		
+		return salesOrderResp;
+	}
+	
+	public SalesOrderResp getSalesOrderGroupByCustomer(Date fromDate, Date toDate) {
+		SalesOrderModel salesOrderModel = new SalesOrderModel();
+		SalesOrderResp salesOrderResp = new SalesOrderResp();
+		
+		salesOrderResp.setRecords(salesOrderModel.getSalesOrderGroupByCustomer(fromDate, toDate));
+//		salesOrderResp.setTotalRecords(getTotalRecord(id, salesOrderModel));
+		
+		return salesOrderResp;
+	}
+	
 	private List<SalesOrder> getSalesOrderList(int page, int rowsperpage, String orderfield, SalesOrderModel salesOrderModel) {
-		System.out.println("getSalesOrderList");
 		List<SalesOrder> salesOrderList = salesOrderModel.getSalesOrderList(page, rowsperpage, orderfield);
-		System.out.println(salesOrderList.size());
 		return salesOrderList;
 	}
 	

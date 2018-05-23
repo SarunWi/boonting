@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import dto.SalesOrder;
@@ -105,6 +106,133 @@ public class SalesOrderModel {
 			
 			callSt = conn.prepareCall(sql);
 			callSt.setInt(1, id);
+			System.out.println("getSalesOrderListById sql: " + callSt.toString());
+			
+			rs = callSt.executeQuery();
+			while(rs.next()) {
+				SalesOrder salesOrder = new SalesOrder();
+				salesOrder.setSalesOrderId(rs.getInt(1));
+				salesOrder.setSalesOrderRemark(rs.getString(2));
+				salesOrder.setSalesOrderStatus(rs.getString(3));
+				salesOrder.setCreatedBy(rs.getString(4));
+				salesOrder.setCreatedDate(rs.getDate(5));
+				salesOrder.setStateName(rs.getString(6));
+				salesOrderList.add(salesOrder);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			DatabaseUtil.close(callSt, rs, conn);
+		}
+		return salesOrderList;
+	}
+	
+	public int updateSalesOrder(SalesOrder salesOrder) {
+		Connection conn = DatabaseUtil.getConnection();
+		
+		CallableStatement callSt = null;
+		int rs = 0;
+		int updateSuccess = 0;
+		
+		try {
+			String sql = "";
+			
+			callSt = conn.prepareCall(sql);
+			callSt.setString(1, salesOrder.getSalesOrderRemark());
+			callSt.setString(2, salesOrder.getSalesOrderStatus());
+			callSt.setString(3, salesOrder.getSalesOrderRemark());
+			System.out.println("updateSalesOrder sql: " + callSt.toString());
+			
+			rs = callSt.executeUpdate();
+			System.out.println("rs: " + rs);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return updateSuccess;
+	}
+
+	public int insertSalesOrder(SalesOrder salesOrder) {
+		Connection conn = DatabaseUtil.getConnection();
+		
+		CallableStatement callSt = null;
+		int rs = 0;
+		int updateSuccess = 0;
+		
+		try {
+			String sql = "insert into boonting.sales_order()"
+					+ " values(nextval(sales_order_id, "
+					+ " "
+					+ "))";
+			
+			callSt = conn.prepareCall(sql);
+			callSt.setString(1, salesOrder.getSalesOrderRemark());
+			callSt.setString(2, salesOrder.getSalesOrderStatus());
+			callSt.setString(3, salesOrder.getSalesOrderRemark());
+			System.out.println("insertSalesOrder sql: " + callSt.toString());
+			
+			rs = callSt.executeUpdate();
+			System.out.println("rs: " + rs);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return updateSuccess;
+	}
+
+	public List<SalesOrder> getSalesOrderGroupByLocation(Date fromDate, Date toDate) {
+		Connection conn = DatabaseUtil.getConnection();
+		
+		CallableStatement callSt = null;
+		ResultSet rs = null;
+		List<SalesOrder> salesOrderList = new ArrayList<SalesOrder>();
+		
+		try {
+			String sql = "select so.sales_order_id, so.sales_order_remark, so.sales_order_status, u.username, so.created_date, sos.state_name"
+					+ " from boonting.sales_order so"
+					+ " join boonting.sales_order_state sos"
+					+ " on so.sales_order_id = sos.sales_order_state_id"
+					+ " join boonting.user u"
+					+ " on so.created_by = u.username"
+					+ " where so.sales_order_id = ?";
+			
+			callSt = conn.prepareCall(sql);
+			System.out.println("getSalesOrderListById sql: " + callSt.toString());
+			
+			rs = callSt.executeQuery();
+			while(rs.next()) {
+				SalesOrder salesOrder = new SalesOrder();
+				salesOrder.setSalesOrderId(rs.getInt(1));
+				salesOrder.setSalesOrderRemark(rs.getString(2));
+				salesOrder.setSalesOrderStatus(rs.getString(3));
+				salesOrder.setCreatedBy(rs.getString(4));
+				salesOrder.setCreatedDate(rs.getDate(5));
+				salesOrder.setStateName(rs.getString(6));
+				salesOrderList.add(salesOrder);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			DatabaseUtil.close(callSt, rs, conn);
+		}
+		return salesOrderList;
+	}
+	
+	public List<SalesOrder> getSalesOrderGroupByCustomer(Date fromDate, Date toDate) {
+		Connection conn = DatabaseUtil.getConnection();
+		
+		CallableStatement callSt = null;
+		ResultSet rs = null;
+		List<SalesOrder> salesOrderList = new ArrayList<SalesOrder>();
+		
+		try {
+			String sql = "select so.sales_order_id, so.sales_order_remark, so.sales_order_status, u.username, so.created_date, sos.state_name"
+					+ " from boonting.sales_order so"
+					+ " join boonting.sales_order_state sos"
+					+ " on so.sales_order_id = sos.sales_order_state_id"
+					+ " join boonting.user u"
+					+ " on so.created_by = u.username"
+					+ " where so.sales_order_id = ?";
+			
+			callSt = conn.prepareCall(sql);
 			System.out.println("getSalesOrderListById sql: " + callSt.toString());
 			
 			rs = callSt.executeQuery();

@@ -9,7 +9,6 @@ public class Location {
 	private float locationLongitude;
 	private float locationLatitude;
 	private String locationDescription;
-	private int shippingId;
 	
 	@XmlElement(name = "locationId")
 	public int getLocationId() {
@@ -49,14 +48,6 @@ public class Location {
 	}
 	public void setLocationDescription(String locationDescription) {
 		this.locationDescription = locationDescription;
-	}
-	
-	@XmlElement(name = "shippingId")
-	public int getShippingId() {
-		return shippingId;
-	}
-	public void setShippingId(int shippingId) {
-		this.shippingId = shippingId;
 	}
 	
 	public Location(int locationId, String locationName, float locationLongitude, float locationLatitude,

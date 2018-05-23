@@ -1,6 +1,7 @@
 package ws;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -80,40 +81,44 @@ public class SalesOrderRestful {
 	@Path("updateSalesOrder")
 	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateSalesOrder(SalesOrder salesOrder) {
-		System.out.println("updateSalesOrder ");
-		Response resp = new Response();
+	public String updateSalesOrder(SalesOrder salesOrder) {
+		System.out.println("updateSalesOrder");
 		
-		return resp;
+		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
+		Response resp = salesOrderSrvc.updateSalesOrder(salesOrder);
+		return "";
 	}
-//	
-//	@POST
-//	@Path("updateStatus")
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public void updateStatus(String status, String remark) {
-//		//TODO : Get Sales Order List by id
-//		
-//		List<SalesOrder> salesOrderList = new ArrayList<SalesOrder>();
-//		
-//	}
-//	
-//	@GET
-//	@Path("getSalesOrderGroupByLocation")
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public void getSalesOrderGroupByLocation(String status, String remark) {
-//		//TODO : Get Sales Order List by id
-//		
-//		List<SalesOrder> salesOrderList = new ArrayList<SalesOrder>();
-//		
-//	}
-//	
-//	@GET
-//	@Path("getSalesOrderGroupByCustomer")
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public void getSalesOrderGroupByCustomer(String status, String remark) {
-//		//TODO : Get Sales Order List by id
-//		
-//		List<SalesOrder> salesOrderList = new ArrayList<SalesOrder>();
-//		
-//	}
+	
+	@POST
+	@Path("insertSalesOrder")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String insertSalesOrder(SalesOrder salesOrder) {
+		System.out.println("insertSalesOrder");
+		
+		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
+		Response resp = salesOrderSrvc.insertSalesOrder(salesOrder);
+		return "";
+	}
+	
+	@GET
+	@Path("getSalesOrderGroupByLocation")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getSalesOrderGroupByLocation(Date fromDate, Date toDate) {
+		System.out.println("getSalesOrderGroupByLocation");
+		
+		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
+		SalesOrderResp resp = salesOrderSrvc.getSalesOrderGroupByLocation(fromDate, toDate);
+		return "";
+	}
+	
+	@GET
+	@Path("getSalesOrderGroupByCustomer")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getSalesOrderGroupByCustomer(Date fromDate, Date toDate) {
+		System.out.println("getSalesOrderGroupByCustomer");
+		
+		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
+		SalesOrderResp resp = salesOrderSrvc.getSalesOrderGroupByCustomer(fromDate, toDate);
+		return "";
+	}
 }
