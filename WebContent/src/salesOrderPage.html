@@ -1,0 +1,45 @@
+<md-content>
+    <md-toolbar class="md-grey">
+        <div class="md-toolbar-tools">
+            <h2>Sales Order</h2>
+  			<span flex></span>
+  			<md-button class="md-raised" ng-click="ctrl.showAdvanced($event)" >
+      			New Sales Order
+    		</md-button>
+        </div>
+    </md-toolbar>
+</md-content>
+<md-content>
+	<div style="width: 100%;">
+	    <table 	st-table="ctrl.wrapper.displaySalesOrders" 
+	    		st-safe-src="ctrl.wrapper.salesOrders" 
+	    		class="table table-striped" 
+	    		style="border-left: 1px solid #dddbda;border-right:1px solid #dddbda;">
+	        <thead>
+	            <tr>
+	                <th st-sort="id">No</th>
+	                <th st-sort="customer.name">Customer</th>
+	                <th st-sort="date">Order Date</th>
+	                <th st-sort="status">Status</th>
+	                <th st-sort="location">Location</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr ng-repeat="item in ctrl.wrapper.displaySalesOrders">
+	                <td>{{item.id}}</td>
+	                <td>{{item.customer.name}}</td>
+	                <td>{{item.date}}</td>
+	                <td>{{item.status}}</td>
+	                <td>{{item.location.name}}</td>
+	            </tr>
+	        </tbody>
+	        <tfoot>
+	            <tr>
+	                <td colspan="5" class="text-center">
+	                    <div st-pagination="st-pagination" st-items-by-page="6" st-displayed-pages="7"></div>
+	                </td>
+	            </tr>
+	        </tfoot>
+	    </table>
+	</div>
+</md-content>

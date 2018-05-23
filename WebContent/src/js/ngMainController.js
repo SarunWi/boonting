@@ -1,4 +1,5 @@
-angular.module('boontingApp',['ngRoute','ngMaterial','ngMessages'])
+angular.module('boontingApp',['ngRoute','ngMaterial','ngMessages','smart-table'])
+.config(window.$QDecorator)
 .config(function($routeProvider) {
     $routeProvider
     .when("/",{
@@ -8,11 +9,23 @@ angular.module('boontingApp',['ngRoute','ngMaterial','ngMessages'])
     .when("/customer", {
         templateUrl : "src/customerPage.html",
         controller 	: "customerCtrl as ctrl"
-    });
+    })
+    .when("/salesOrder", {
+        templateUrl : "src/salesOrderPage.html",
+        controller  : "salesorderCtrl as ctrl"
+    })
+    .when("/location", {
+        templateUrl : "src/locationPage.html",
+        controller  : "locationCtrl as ctrl"
+    })
+    .when("/report", {
+        templateUrl : "src/reportPage.html",
+        controller  : "reportCtrl as ctrl"
+    })
 })
 .controller('mainController',['$q','$scope',function($q,$scope){
 	var ctrl = this;
-	$scope.currentNavItem  = 'home';
+	// $scope.currentNavItem  = 'home';
 	ctrl.wrapper = { pageHeader : 'some header' };
 
 }])

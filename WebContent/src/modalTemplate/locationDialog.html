@@ -1,0 +1,46 @@
+<md-dialog aria-label="New Location">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>New Location</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="src/icon/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+          <div class="md-dialog-content">
+            <!-- Input Form -->
+            <md-content layout-padding style="min-width: 500px;">
+                <div >
+                    <form name="locationForm">
+                        <div layout-gt-md="row" layout-md="row">
+                            <md-input-container class="md-block" flex-gt-xs>
+                                <label>Name</label>
+                                <input ng-model="location.name">
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-md="row" layout-md="row">
+                            <md-input-container class="md-block" flex-gt-xs>
+                              <label>Address</label>
+                              <textarea ng-model="location.address" md-maxlength="255" rows="5" md-select-on-focus></textarea>
+                            </md-input-container>
+                        </div>
+                    </form>
+                </div>
+            </md-content>
+            <!-- Input Form -->
+          </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="save()">
+                Save
+            </md-button>
+            <md-button ng-click="cancel()">
+                Cancel
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

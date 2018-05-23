@@ -1,0 +1,45 @@
+<md-content>
+    <md-toolbar class="md-grey">
+        <div class="md-toolbar-tools">
+           <!--  <span style="display:inline-block;font-size: 1.5rem;padding-left: 3rem;height: 2rem;">
+  				<p class="md-title"> Location </p>
+  			</span> -->
+  			<h2>Location</h2>
+  			<span flex></span>
+  			<md-button class="md-raised" ng-click="ctrl.showAdvanced($event)" >
+      			New Location
+    		</md-button>
+    		
+        </div>
+    </md-toolbar>
+</md-content>
+<md-content>
+	<div style="width: 100%;">
+	    <table 	st-table="ctrl.wrapper.displayLocations" 
+	    		st-safe-src="ctrl.wrapper.locations" 
+	    		class="table table-striped" 
+	    		style="border-left: 1px solid #dddbda;border-right:1px solid #dddbda;">
+	        <thead>
+	            <tr>
+	                <th st-sort="id">No</th>
+	                <th st-sort="customer.name">Name</th>
+	                <th st-sort="date">Address</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr ng-repeat="item in ctrl.wrapper.displayLocations">
+	                <td>{{item.id}}</td>
+	                <td>{{item.name}}</td>
+	                <td>{{item.address}}</td>
+	            </tr>
+	        </tbody>
+	        <tfoot>
+	            <tr>
+	                <td colspan="5" class="text-center">
+	                    <div st-pagination="st-pagination" st-items-by-page="6" st-displayed-pages="7"></div>
+	                </td>
+	            </tr>
+	        </tfoot>
+	    </table>
+	</div>
+</md-content>
