@@ -1,0 +1,13 @@
+.navBardemoBasicUsage md-content .ext-content {
+    padding: 50px;
+    margin: 20px;
+    background-color: #FFF2E0;
+}
+.rounded-circle {
+    border-radius: 50%!important;
+}
+.content-layout{
+	padding:2rem;
+	height:500px;
+	overflow-y: auto;
+}
