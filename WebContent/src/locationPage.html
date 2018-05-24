@@ -21,14 +21,14 @@
 	    		style="border-left: 1px solid #dddbda;border-right:1px solid #dddbda;">
 	        <thead>
 	            <tr>
-	                <th st-sort="id">No</th>
+	                <th >&nbsp;</th>
 	                <th st-sort="customer.name">Name</th>
 	                <th st-sort="date">Address</th>
 	            </tr>
 	        </thead>
 	        <tbody>
 	            <tr ng-repeat="item in ctrl.wrapper.displayLocations">
-	                <td>{{item.id}}</td>
+	                <td><a ng-click="ctrl.showAdvanced($event,item)">Edit</a></td>
 	                <td>{{item.name}}</td>
 	                <td>{{item.address}}</td>
 	            </tr>

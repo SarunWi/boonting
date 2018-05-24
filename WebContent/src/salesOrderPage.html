@@ -17,7 +17,7 @@
 	    		style="border-left: 1px solid #dddbda;border-right:1px solid #dddbda;">
 	        <thead>
 	            <tr>
-	                <th st-sort="id">No</th>
+	                <th st-sort="id">Action</th>
 	                <th st-sort="customer.name">Customer</th>
 	                <th st-sort="date">Order Date</th>
 	                <th st-sort="status">Status</th>
@@ -26,7 +26,7 @@
 	        </thead>
 	        <tbody>
 	            <tr ng-repeat="item in ctrl.wrapper.displaySalesOrders">
-	                <td>{{item.id}}</td>
+	                <td><a ng-click="ctrl.showAdvanced($event,item)">Edit</a></td>
 	                <td>{{item.customer.name}}</td>
 	                <td>{{item.date}}</td>
 	                <td>{{item.status}}</td>

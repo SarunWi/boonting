@@ -79,15 +79,31 @@ angular.module('boontingApp')
         }
         return deferred.promise;
 	}
+    var getMaterialItem = function(){
+        var deferred = $q.defer();
+        if(isMockUp){
+            deferred.resolve(mockUpFactory.getMaterialItems());
+        }
+        return deferred.promise;
+    }
+    var getSalesOrderOption = function(){
+        var deferred = $q.defer();
+        if(isMockUp){
+            deferred.resolve(mockUpFactory.getSalesOrderOptions());
+        }
+        return deferred.promise; 
+    }
 	return {
-		getCustomer 	: getCustomer,
-		getSalesOrder 	: getSalesOrder,
-		getLocation 	: getLocation,
-		getSalesOrderByLocation : getSalesOrderByLocation,
-		getSalesOrderByCustomer : getSalesOrderByCustomer,
-        insertSalesOrder : insertSalesOrder,
-        updateSalesOrder : updateSalesOrder,
-        insertLocation : insertLocation,
-        updateLocation : updateLocation
+		getCustomer 	           : getCustomer,
+		getSalesOrder 	           : getSalesOrder,
+		getLocation 	           : getLocation,
+		getSalesOrderByLocation    : getSalesOrderByLocation,
+		getSalesOrderByCustomer    : getSalesOrderByCustomer,
+        insertSalesOrder           : insertSalesOrder,
+        updateSalesOrder           : updateSalesOrder,
+        insertLocation             : insertLocation,
+        updateLocation             : updateLocation,
+        getMaterialItem            : getMaterialItem,
+        getSalesOrderOption        : getSalesOrderOption
 	}
 }])

@@ -1,0 +1,86 @@
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css" />
+    <link data-require="bootstrap-css@3.2.0" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="src/css/customStyle.css" />
+    <!-- <script src="lib/jquery/jquery.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
+    <script src="js/$QDecorator.js"></script>
+    <script type="text/javascript">
+    angular.module('whiteframeBasicUsage', ['ngMaterial']);
+    </script>
+    <style type="text/css">
+    .whiteframedemoBasicClassUsage {
+        /* For breakpoint `-xs` */
+        /* For breakpoint `-sm` */
+        /* For breakpoint `-md` */
+        /* For breakpoint `-gt-md` */
+    }
+
+    .whiteframedemoBasicClassUsage md-whiteframe {
+        background: #fff;
+        margin: 30px;
+        height: 100px;
+    }
+
+    @media (max-width: 599px) {
+        .whiteframedemoBasicClassUsage md-whiteframe {
+            margin: 7px;
+            height: 50px;
+            background-color: #c8e4fa;
+        }
+        .whiteframedemoBasicClassUsage md-whiteframe>span {
+            font-size: 0.4em;
+        }
+    }
+
+    @media (min-width: 600px) and (max-width: 959px) {
+        .whiteframedemoBasicClassUsage md-whiteframe {
+            margin: 20px;
+            height: 75px;
+        }
+        .whiteframedemoBasicClassUsage md-whiteframe>span {
+            font-size: 0.6em;
+        }
+    }
+
+    @media (min-width: 960px) and (max-width: 1279px) {
+        .whiteframedemoBasicClassUsage md-whiteframe {
+            margin: 20px;
+            height: 90px;
+            background-color: #fcddde;
+        }
+        .whiteframedemoBasicClassUsage md-whiteframe>span {
+            font-size: 0.9em;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .whiteframedemoBasicClassUsage md-whiteframe {
+            margin: 25px;
+            height: 100px;
+            background-color: #F2FCE2;
+        }
+        .whiteframedemoBasicClassUsage md-whiteframe>span {
+            font-size: 1.0em;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div layout="row" layout-padding layout-wrap layout-fill style="padding-bottom: 32px;" ng-cloak>
+        <md-whiteframe class="md-whiteframe-1dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout layout-align="center center">
+            <span>.md-whiteframe-1dp</span>
+        </md-whiteframe>
+    </div>
+</body>
+
+</html>

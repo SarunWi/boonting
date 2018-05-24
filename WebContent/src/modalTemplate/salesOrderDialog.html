@@ -10,38 +10,101 @@
             </div>
         </md-toolbar>
         <md-dialog-content>
-          <div class="md-dialog-content">
-            <!-- Input Form -->
-            <md-content layout-padding style="min-width: 500px;">
-                <div >
-                    <form name="locationForm">
-                        <div layout-gt-md="row" layout-md="row">
-                            <md-input-container class="md-block" flex-gt-xs>
-                                <label>Customer</label>
-                                <input ng-model="salesOrder.customer">
-                            </md-input-container>
-                            <md-input-container>
-                                <label>Order Date</label>
-                                <md-datepicker ng-model="salesOrder.date"></md-datepicker>
-                            </md-input-container>
-                        </div>
-                        <div layout-gt-md="row" layout-md="row">
-                            <md-input-container class="md-block" flex-gt-xs>
-                                <label>Status</label>
-                                <input ng-model="salesOrder.status"/>
-                            </md-input-container>
-                        </div>
-                        <div layout-gt-md="row" layout-md="row">
-                            <md-input-container class="md-block" flex-gt-xs>
-                              <label>location</label>
-                              <textarea ng-model="salesOrder.location" md-maxlength="255" rows="5" md-select-on-focus></textarea>
-                            </md-input-container>
-                        </div>
-                    </form>
-                </div>
-            </md-content>
-            <!-- Input Form -->
-          </div>
+            <div class="md-dialog-content">
+                <!-- Input Form -->
+                <md-content layout-padding style="min-width: 700px;">
+                    <div>
+                        <form name="locationForm">
+                            <div layout-gt-md="row" layout-md="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Customer</label>
+                                    <md-select ng-model="salesOrder.customer" required  >
+                                        <md-option ng-repeat="customer in wrapper.customers" value="{{customer.id}}">
+                                            {{customer.name}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+
+                                <md-input-container>
+                                    <label>Order Date</label>
+                                    <md-datepicker ng-model="salesOrder.date" required ></md-datepicker>
+                                </md-input-container>
+                            </div>
+                            <div layout-gt-md="row" layout-md="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Status</label>
+                                    <md-select ng-model="salesOrder.status" required >
+                                        <md-option ng-repeat="status in wrapper.status" value="{{status}}">
+                                            {{status}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>location</label>
+                                    <md-select ng-model="salesOrder.location" required >
+                                        <md-option ng-repeat="location in wrapper.locations" value="{{location.id}}">
+                                            {{location.name}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <div layout-gt-md="row" layout-md="row">
+                                <md-input-container class="md-block" flex-gt-xs>
+                                    <label>Remark</label>
+                                    <textarea ng-model="salesOrder.remark" md-maxlength="255" rows="2" md-select-on-focus></textarea>
+                                </md-input-container> 
+                            </div>
+                        </form>
+                            <hr/>
+                            <md-button ng-click="addItem()"> Add Product </md-button>
+                            <!-- Line Item Section -->
+                            <div style="width: 100%;">
+                                <table class="table table-striped" style="border-left: 1px solid #dddbda;border-right:1px solid #dddbda;font-size: 1.2rem;">
+                                    <thead>
+                                        <tr>
+                                            <th >&nbsp;</th>
+                                            <th >Material Item</th>
+                                            <th >Unit Price (Per/Kg)</th>
+                                            <th >Quantity (Kg)</th>
+                                            <th >Total Price </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="orderitem in salesOrder.items">
+                                            <td><a>Del</a></td>
+                                            <td> 
+                                                <!-- <md-input-container class="md-block" flex-gt-sm> -->
+                                                    <md-select ng-model="orderitem.materialItem" style="margin:0 !important" ng-change="changeProduct(orderitem,orderitem.materialItem)"  >
+                                                        <md-option ng-repeat="item in wrapper.materialItems" value="{{item.id}}">
+                                                            {{item.name}}
+                                                        </md-option>
+                                                    </md-select>
+                                                <!-- </md-input-container> -->
+                                            </td>
+                                            <td>
+                                                {{orderitem.unitPrice}}
+                                            </td>
+                                            <td>
+                                                 <input 
+                                                     required 
+                                                     type="number" 
+                                                     step="any" 
+                                                     name="quantity" 
+                                                     ng-model="orderitem.quantity" 
+                                                     min="0"
+                                                     max="999" 
+                                                     ng-change="changeQuantity(orderitem)" />
+                                            </td>
+                                            <td>{{orderitem.totalPrice}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                    <!-- Line Item Section -->
+                    </div>
+                </md-content>
+                <!-- Input Form -->
+            </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">
             <span flex></span>
