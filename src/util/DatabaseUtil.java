@@ -30,8 +30,8 @@ public class DatabaseUtil {
 	
 	public static void close(CallableStatement callSt, ResultSet rs, Connection conn) {
 		try {
-			callSt.close();
 			rs.close();
+			callSt.close();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -17,6 +17,6 @@ public class ApplicationConfig extends Application {
 //		resources.add(ws.CategoryRestful.class);
 		resources.add(ws.LoginRestful.class);
 		resources.add(ws.SalesOrderRestful.class);
-//		resources.add(ws.LocationRestful.class);
+		resources.add(ws.LocationRestful.class);
 	}
 }

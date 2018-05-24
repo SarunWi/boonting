@@ -1,6 +1,6 @@
 package interfaces;
 
-import javax.ws.rs.core.Context;
+import controller.Context;
 
 public interface State {
 	public void doAction(Context context);

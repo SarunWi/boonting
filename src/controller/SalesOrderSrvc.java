@@ -1,12 +1,13 @@
 package controller;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import dto.Response;
 import dto.SalesOrder;
 import dto.SalesOrderResp;
 import model.SalesOrderModel;
+import util.Constants;
 
 public class SalesOrderSrvc {
 	private int page;
@@ -41,8 +42,35 @@ public class SalesOrderSrvc {
 	public Response updateSalesOrder(SalesOrder salesOrder) {
 		SalesOrderModel salesOrderModel = new SalesOrderModel();
 		Response resp = new Response();
-		int updateSuccess = salesOrderModel.updateSalesOrder(salesOrder);
 		
+		if(salesOrder.getSalesOrderStatus() != "" || salesOrder.getSalesOrderStatus() != null) {
+			if(salesOrderModel.checkSalesOrderStatus(salesOrder.getSalesOrderStatus()) == 0) { // dont't have this state
+				resp.setIsSuccess(false);
+				resp.setErrorMessage("Dont't have this state");
+				return resp;
+			} else {
+				Context context = new Context();
+
+				if(salesOrder.getSalesOrderStatus().equals(Constants.WAITING_CNFRM_FROM_SELLER_STATE)) {
+					SellerConfirmState sellerConfirmState = new SellerConfirmState();
+					sellerConfirmState.doAction(context);
+				} else if(salesOrder.getSalesOrderStatus().equals(Constants.CNFRM_SALES_ORDER_STATE)) {
+					SearchAppointmentState searchAppointmentState = new SearchAppointmentState();
+					searchAppointmentState.doAction(context);
+				} else if(salesOrder.getSalesOrderStatus().equals(Constants.RECYCLED_CHECK_STATE)) {
+					RecycledCheckState recycleCheckSate = new RecycledCheckState();
+					recycleCheckSate.doAction(context);
+				} else if(salesOrder.getSalesOrderStatus().equals(Constants.TRAVELLING_STATE)) {
+					TravellingState travellingState = new TravellingState();
+					travellingState.doAction(context);
+				} else if(salesOrder.getSalesOrderStatus().equals(Constants.PAYMENT_STATE)) {
+					PaymentState paymentState = new PaymentState();
+					paymentState.doAction(context);
+				}
+			}
+		}
+		
+		int updateSuccess = salesOrderModel.updateSalesOrder(salesOrder);
 		if(updateSuccess == 1) {
 			resp.setIsSuccess(true);
 			resp.setErrorMessage("");
@@ -73,7 +101,7 @@ public class SalesOrderSrvc {
 		SalesOrderResp salesOrderResp = new SalesOrderResp();
 		
 		salesOrderResp.setRecords(salesOrderModel.getSalesOrderGroupByLocation(fromDate, toDate));
-//		salesOrderResp.setTotalRecords(getTotalRecord(id, salesOrderModel));
+		salesOrderResp.setTotalRecords(getTotalRecord(0, salesOrderModel));
 		
 		return salesOrderResp;
 	}
@@ -83,7 +111,7 @@ public class SalesOrderSrvc {
 		SalesOrderResp salesOrderResp = new SalesOrderResp();
 		
 		salesOrderResp.setRecords(salesOrderModel.getSalesOrderGroupByCustomer(fromDate, toDate));
-//		salesOrderResp.setTotalRecords(getTotalRecord(id, salesOrderModel));
+		salesOrderResp.setTotalRecords(getTotalRecord(0, salesOrderModel));
 		
 		return salesOrderResp;
 	}

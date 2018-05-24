@@ -1,6 +1,7 @@
 package dto;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,6 +16,7 @@ public class SalesOrder {
 	private Date createdDate;
 	private String stateName;
 	private int shippingId;
+	private List<RecycleMaterialList> recycleMaterialList;
 	
 	@XmlElement(name = "salesOrderId")
 	public int getSalesOrderId() {
@@ -64,6 +66,13 @@ public class SalesOrder {
 		this.stateName = stateName;
 	}
 	
+	@XmlElement(name = "recycleMaterialList")
+	public List<RecycleMaterialList> getRecycleMaterialList() {
+		return recycleMaterialList;
+	}
+	public void setRecycleMaterialList(List<RecycleMaterialList> recycleMaterialList) {
+		this.recycleMaterialList = recycleMaterialList;
+	}
 	@XmlElement(name = "shippingId")
 	public int getShippingId() {
 		return shippingId;
@@ -73,7 +82,7 @@ public class SalesOrder {
 	}
 	
 	public SalesOrder(int salesOrderId, String salesOrderRemark, String salesOrderStatus, String createdBy,
-			Date createdDate, String stateName, int shippingId) {
+			Date createdDate, String stateName, int shippingId, List<RecycleMaterialList> recycleMaterialList) {
 		super();
 		this.salesOrderId = salesOrderId;
 		this.salesOrderRemark = salesOrderRemark;
@@ -82,8 +91,8 @@ public class SalesOrder {
 		this.createdDate = createdDate;
 		this.stateName = stateName;
 		this.shippingId = shippingId;
+		this.recycleMaterialList = recycleMaterialList;
 	}
-	
 	public SalesOrder() {
 		super();
 	}

@@ -2,10 +2,10 @@ package model;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import dto.SalesOrder;
@@ -135,12 +135,17 @@ public class SalesOrderModel {
 		int updateSuccess = 0;
 		
 		try {
-			String sql = "";
-			
+			String sql = "UPDATE boonting.sales_order "
+			+ " SET sales_order_remark = ?"
+			+ " , sales_order_status = ?"
+			+ " , sales_order_state_id = (select sales_order_state_id from sales_order where state_name = ?)"
+			+ " WHERE sales_order_id = ?";
+						
 			callSt = conn.prepareCall(sql);
 			callSt.setString(1, salesOrder.getSalesOrderRemark());
 			callSt.setString(2, salesOrder.getSalesOrderStatus());
-			callSt.setString(3, salesOrder.getSalesOrderRemark());
+			callSt.setString(3, salesOrder.getStateName());
+			callSt.setInt(4, salesOrder.getSalesOrderId());
 			System.out.println("updateSalesOrder sql: " + callSt.toString());
 			
 			rs = callSt.executeUpdate();
@@ -156,26 +161,37 @@ public class SalesOrderModel {
 		
 		CallableStatement callSt = null;
 		int rs = 0;
-		int updateSuccess = 0;
 		
 		try {
-			String sql = "insert into boonting.sales_order()"
-					+ " values(nextval(sales_order_id, "
-					+ " "
-					+ "))";
+//			String sql = "insert into boonting.sales_order(sales_order_id, sales_order_remark, sales_order_status, created_by, created_date, sales_order_state_id)"
+//					+ " values(nextval(boonting.sales_order_id_seq)"
+//					+ " , ?"
+//					+ " , ?"
+//					+ " , ?"
+//					+ " , 1"
+//					+ " , now())";
+//			System.out.println("insertSalesOrder SQL: " + sql);
+			
+			/*
+			 * 		parameter 1: sales_order_remark
+			 * 		parameter 2: sales_order_status
+			 * 		parameter 3: created_by
+			 * 		parameter 4: recycleMaterialList
+			 * */
+			
+			String sql = "{ ? = call boonting.insert_sales_order(?, ?, ?, ?, ?) }";
 			
 			callSt = conn.prepareCall(sql);
 			callSt.setString(1, salesOrder.getSalesOrderRemark());
 			callSt.setString(2, salesOrder.getSalesOrderStatus());
-			callSt.setString(3, salesOrder.getSalesOrderRemark());
-			System.out.println("insertSalesOrder sql: " + callSt.toString());
+			callSt.setString(3, salesOrder.getCreatedBy());
 			
 			rs = callSt.executeUpdate();
 			System.out.println("rs: " + rs);
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return updateSuccess;
+		return rs;
 	}
 
 	public List<SalesOrder> getSalesOrderGroupByLocation(Date fromDate, Date toDate) {
@@ -184,18 +200,31 @@ public class SalesOrderModel {
 		CallableStatement callSt = null;
 		ResultSet rs = null;
 		List<SalesOrder> salesOrderList = new ArrayList<SalesOrder>();
-		
+//		System.out.println("fromDate: " + fromDate.toString() + "toDate: " + toDate.toString());
 		try {
-			String sql = "select so.sales_order_id, so.sales_order_remark, so.sales_order_status, u.username, so.created_date, sos.state_name"
+			String sql = "select l.location_id, l.location_name, so.sales_order_id, so.sales_order_remark, so.sales_order_status, u.username, so.created_date, sos.state_name"
 					+ " from boonting.sales_order so"
 					+ " join boonting.sales_order_state sos"
-					+ " on so.sales_order_id = sos.sales_order_state_id"
+					+ " on so.sales_order_state_id = sos.sales_order_state_id"
 					+ " join boonting.user u"
 					+ " on so.created_by = u.username"
-					+ " where so.sales_order_id = ?";
+					+ " join boonting.shipping s"
+					+ " on s.shipping_id = so.shipping_id"
+					+ " join boonting.location l"
+					+ " on l.location_id = s.location_id"
+					+ " order by l.location_id";
+			if(fromDate != null && toDate != null) {
+					sql = sql + " where so.created_date >= to_timestamp(" + fromDate + ", 'YYYY-MM-DD')"
+					+ " and so.created_date < to_timestamp(" + toDate + ", 'YYYY-MM-DD')";
+			}
 			
 			callSt = conn.prepareCall(sql);
-			System.out.println("getSalesOrderListById sql: " + callSt.toString());
+			System.out.println("getSalesOrderGroupByLocation sql: " + callSt.toString());
+			
+			if(fromDate != null && toDate != null) {
+				callSt.setDate(1, fromDate);
+				callSt.setDate(2, toDate);
+			}
 			
 			rs = callSt.executeQuery();
 			while(rs.next()) {
@@ -213,6 +242,7 @@ public class SalesOrderModel {
 		} finally {
 			DatabaseUtil.close(callSt, rs, conn);
 		}
+		System.out.println("salesOrderList: " + salesOrderList);
 		return salesOrderList;
 	}
 	
@@ -230,7 +260,8 @@ public class SalesOrderModel {
 					+ " on so.sales_order_id = sos.sales_order_state_id"
 					+ " join boonting.user u"
 					+ " on so.created_by = u.username"
-					+ " where so.sales_order_id = ?";
+					+ " where so.createDate >= ?"
+					+ " and so.createdDate < ?";
 			
 			callSt = conn.prepareCall(sql);
 			System.out.println("getSalesOrderListById sql: " + callSt.toString());
@@ -242,7 +273,7 @@ public class SalesOrderModel {
 				salesOrder.setSalesOrderRemark(rs.getString(2));
 				salesOrder.setSalesOrderStatus(rs.getString(3));
 				salesOrder.setCreatedBy(rs.getString(4));
-				salesOrder.setCreatedDate(rs.getDate(5));
+				salesOrder.setCreatedDate(rs.getTimestamp(5));
 				salesOrder.setStateName(rs.getString(6));
 				salesOrderList.add(salesOrder);
 			}
@@ -252,5 +283,29 @@ public class SalesOrderModel {
 			DatabaseUtil.close(callSt, rs, conn);
 		}
 		return salesOrderList;
+	}
+
+	public int checkSalesOrderStatus(String salesOrderStatus) {
+		Connection conn = DatabaseUtil.getConnection();
+		
+		CallableStatement callSt = null;
+		ResultSet rs = null;
+		int salesOrderamount = 0;
+		try {
+			String sql = "select count(*) from boonting.sales_order_state where state_name = "  + salesOrderStatus;
+			callSt = conn.prepareCall(sql);	
+			rs = callSt.executeQuery();
+			
+			if (rs != null && rs.next()) {
+				System.out.println("count salesOrder: " + rs.getInt(1));
+				salesOrderamount = rs.getInt(1);
+			}
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			DatabaseUtil.close(callSt, rs, conn);
+		}
+		
+		return salesOrderamount;
 	}
 }

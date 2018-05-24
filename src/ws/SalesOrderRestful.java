@@ -1,7 +1,7 @@
 package ws;
 
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -82,11 +82,22 @@ public class SalesOrderRestful {
 	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
 	@Produces(MediaType.APPLICATION_JSON)
 	public String updateSalesOrder(SalesOrder salesOrder) {
-		System.out.println("updateSalesOrder");
+		System.out.println("updateSalesOrder|sales_order_id = " + salesOrder.getSalesOrderId() + "|sales_order_remark = " + salesOrder.getSalesOrderRemark() + "|sales_order_status = " + salesOrder.getSalesOrderStatus() + "|sales_order_sate: " + salesOrder.getStateName());
 		
 		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
 		Response resp = salesOrderSrvc.updateSalesOrder(salesOrder);
-		return "";
+		
+		String json  = "";
+		ObjectMapper mapper = new ObjectMapper();
+        try {
+            json = mapper.writeValueAsString(resp);
+            System.out.println("JSON = " + json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
 	}
 	
 	@POST
@@ -94,31 +105,69 @@ public class SalesOrderRestful {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String insertSalesOrder(SalesOrder salesOrder) {
 		System.out.println("insertSalesOrder");
+		System.out.println("getSalesOrderRemark: " + salesOrder.getSalesOrderRemark());
+		System.out.println("getSalesOrderStatus: " + salesOrder.getSalesOrderStatus());
+		System.out.println("getCreatedBy: " + salesOrder.getCreatedBy());
+		System.out.println("getRecycleMaterialList: " + salesOrder.getRecycleMaterialList());
 		
 		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
 		Response resp = salesOrderSrvc.insertSalesOrder(salesOrder);
-		return "";
+		String json  = "";
+		ObjectMapper mapper = new ObjectMapper();
+        try {
+            json = mapper.writeValueAsString(resp);
+            System.out.println("JSON = " + json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
 	}
 	
 	@GET
-	@Path("getSalesOrderGroupByLocation")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getSalesOrderGroupByLocation(Date fromDate, Date toDate) {
+	@Path("getSalesOrderGroupByLocation/{fromDate: .*}/{toDate: .*}")
+	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSalesOrderGroupByLocation(@PathParam("fromDate") Date fromDate,
+            @PathParam("toDate") Date toDate) {
 		System.out.println("getSalesOrderGroupByLocation");
 		
 		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
 		SalesOrderResp resp = salesOrderSrvc.getSalesOrderGroupByLocation(fromDate, toDate);
-		return "";
+		
+		String json  = "";
+		ObjectMapper mapper = new ObjectMapper();
+        try {
+            json = mapper.writeValueAsString(resp);
+            System.out.println("JSON = " + json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
 	}
 	
-	@GET
-	@Path("getSalesOrderGroupByCustomer")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getSalesOrderGroupByCustomer(Date fromDate, Date toDate) {
-		System.out.println("getSalesOrderGroupByCustomer");
-		
-		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
-		SalesOrderResp resp = salesOrderSrvc.getSalesOrderGroupByCustomer(fromDate, toDate);
-		return "";
-	}
+//	@GET
+//	@Path("getSalesOrderGroupByCustomer")
+//	@Produces(MediaType.TEXT_PLAIN)
+//	public String getSalesOrderGroupByCustomer(Date fromDate, Date toDate) {
+//		System.out.println("getSalesOrderGroupByCustomer");
+//		
+//		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
+//		SalesOrderResp resp = salesOrderSrvc.getSalesOrderGroupByCustomer(fromDate, toDate);
+//		
+//		String json  = "";
+//		ObjectMapper mapper = new ObjectMapper();
+//        try {
+//            json = mapper.writeValueAsString(resp);
+//            System.out.println("JSON = " + json);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return json;
+//	}
 }
