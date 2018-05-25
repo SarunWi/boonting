@@ -1,5 +1,5 @@
 <md-content>
-    <md-toolbar class="md-grey">
+    <md-toolbar class="md-grey" style="background-color:rgb(191, 29, 96) !important;">
         <div class="md-toolbar-tools">
             <h2>Sales Order</h2>
   			<span flex></span>
@@ -20,17 +20,17 @@
 	                <th st-sort="id">Action</th>
 	                <th st-sort="customer.name">Customer</th>
 	                <th st-sort="date">Order Date</th>
-	                <th st-sort="status">Status</th>
+	                <th st-sort="status">State</th>
 	                <th st-sort="location">Location</th>
 	            </tr>
 	        </thead>
 	        <tbody>
 	            <tr ng-repeat="item in ctrl.wrapper.displaySalesOrders">
 	                <td><a ng-click="ctrl.showAdvanced($event,item)">Edit</a></td>
-	                <td>{{item.customer.name}}</td>
-	                <td>{{item.date}}</td>
-	                <td>{{item.status}}</td>
-	                <td>{{item.location.name}}</td>
+	                <td>{{item.createdBy}}</td>
+	                <td>{{item.createdDate}}</td>
+	                <td>{{item.stateName}}</td>
+	                <td>{{item.shippingId}}</td>
 	            </tr>
 	        </tbody>
 	        <tfoot>

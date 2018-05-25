@@ -1,5 +1,5 @@
 <md-content>
-    <md-toolbar class="md-grey">
+    <md-toolbar class="md-grey" style="background-color:rgb(191, 29, 96) !important;" >
         <div class="md-toolbar-tools">
             <h2>Customer</h2>
   			
@@ -17,15 +17,15 @@
 	                <th st-sort="id">No</th>
 	                <th st-sort="name">Name</th>
 	                <th st-sort="phone">Phone</th>
-	                <th st-sort="email">email</th>
+	                <th st-sort="email">Email</th>
 	            </tr>
 	        </thead>
 	        <tbody>
 	            <tr ng-repeat="item in ctrl.wrapper.displayCustomer">
-	                <td>{{item.id}}</td>
-	                <td>{{item.name}}</td>
-	                <td>{{item.phone}}</td>
-	                <td>{{item.email}}</td>
+	                <td>{{$index+1}}</td>
+	                <td>{{item.userFirstName+' '+item.userLastName}}</td>
+	                <td>{{item.userPhoneNumber}}</td>
+	                <td>{{item.userEmail!=null?item.userEmail:''}}</td>
 	            </tr>
 	        </tbody>
 	        <tfoot>

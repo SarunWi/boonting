@@ -26,29 +26,30 @@ angular.module('boontingApp')
                     }
                 })
                 .then(function(location) {
+                    console.log(location);
                     ctrl.saveLocation(location);
                 }, function() {
                     console.log('cancel');
                 });
         };
         ctrl.saveLocation = function(location){
-            if(location.id){
+            if(location.locationId){
                 httpFactory.updateLocation(location).then(function(result){
                     if(result){
-                        console.log('save pass');
+                        console.log('save pass',result);
                     }
                 })
         	}else{
                 httpFactory.insertLocation(location).then(function(result){
             		if(result){
-            			console.log('save pass');
+            			console.log('save pass',result);
             		}
             	})
             }
         }
 
         function DialogController($scope, $mdDialog,selectedItem) {
-        	$scope.location = { name: '' ,address: ''}
+        	$scope.location = { locationName: '' ,locationAddress: '', locationDescription:''}
             var init = function(){
                 if(selectedItem){
                     $scope.location = selectedItem;

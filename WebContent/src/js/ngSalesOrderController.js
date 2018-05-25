@@ -7,6 +7,7 @@ angular.module('boontingApp')
         }
         var init = function() {
             httpFactory.getSalesOrder().then(function(result) {
+                console.log('Sales order result :',result);
                 if (result) {
                     ctrl.wrapper.salesOrders = result;
                     ctrl.wrapper.displaySalesOrders = result;
@@ -50,20 +51,24 @@ angular.module('boontingApp')
 
         function DialogController($scope, $mdDialog,httpFactory,$q,selectedItem) {
             $scope.salesOrder = {   
-                                    name    : undefined,
-                                    customer: undefined,
-                                    date    : undefined, 
-                                    status  : undefined,
-                                    location: undefined,
-                                    note    : '',
-                                    items   : [] 
+                                    name            : undefined,
+                                    createdBy       : undefined,
+                                    createdDate     : undefined, 
+                                    stateName       : undefined,
+                                    locationId      : undefined,
+                                    salesOrderRemark    : '',
+                                    recycleMaterialList   : [] ,
+                                    salesOrderStatus : undefined,
+
                                 };
             $scope.wrapper = {
                 customers       : [],
                 materialItems   : [],
                 locations       : [],
                 status          : [],
-                materialMap     : {}
+                materialMap     : {},
+                customerMap     : {}
+
             }
             var initOption = function(){
                 console.log('selected Item :',selectedItem);
@@ -85,27 +90,35 @@ angular.module('boontingApp')
             }
             var setMaterial = function(materials){
                 for(var i=0;i<materials.length;i++ ){
-                    $scope.wrapper.materialMap[materials[i].id] = materials[i];
+                    $scope.wrapper.materialMap[materials[i].rmName] = materials[i];
                 }
 
             }
+            var toMap = function(arrayList,field){
+                var mapitem = {};
+                for(var i=0;i<arrayList.length;i++){
+                    mapitem[arrayList[i][field]] = arrayList[i];
+                }
+                return mapitem;
+            }
             $scope.changeProduct = function(item,materialId){
-                console.log(item);
-                item.unitPrice = $scope.wrapper.materialMap[materialId].unitPrice;
-                if(item.unitPrice!=undefined &&item.quantity!=undefined){
-                    item.totalPrice = item.unitPrice*item.quantity;
+                console.log(materialId);
+                console.log($scope.wrapper.materialMap );
+                item.rml_Price = $scope.wrapper.materialMap[materialId].rmPrice;
+                if(item.rml_Price!=undefined &&item.rml_quantity!=undefined){
+                    item.totalPrice = item.unitPrice*item.rml_quantity;
                     console.log(item.totalPrice);
                 }
             }
             $scope.changeQuantity = function(item){
 
-                if(item.unitPrice!=undefined &&item.quantity!=undefined){
-                    item.totalPrice = item.unitPrice*item.quantity;
+                if(item.rml_Price!=undefined &&item.rml_quantity!=undefined){
+                    item.totalPrice = item.rml_Price*item.rml_quantity;
                 }
                 console.log(item);
             }
             $scope.addItem = function(){
-                $scope.salesOrder.items.push({});
+                $scope.salesOrder.recycleMaterialList.push({});
             }
             $scope.hide = function() {
                 $mdDialog.hide();

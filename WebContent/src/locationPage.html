@@ -1,5 +1,5 @@
 <md-content>
-    <md-toolbar class="md-grey">
+    <md-toolbar class="md-grey" style="background-color:rgb(191, 29, 96) !important;">
         <div class="md-toolbar-tools">
            <!--  <span style="display:inline-block;font-size: 1.5rem;padding-left: 3rem;height: 2rem;">
   				<p class="md-title"> Location </p>
@@ -24,13 +24,15 @@
 	                <th >&nbsp;</th>
 	                <th st-sort="customer.name">Name</th>
 	                <th st-sort="date">Address</th>
+	                <th st-sort="date">Description</th>
 	            </tr>
 	        </thead>
 	        <tbody>
 	            <tr ng-repeat="item in ctrl.wrapper.displayLocations">
 	                <td><a ng-click="ctrl.showAdvanced($event,item)">Edit</a></td>
-	                <td>{{item.name}}</td>
-	                <td>{{item.address}}</td>
+	                <td>{{item.locationName}}</td>
+	                <td>{{item.locationAddress}}</td>
+	                <td>{{item.locationDescription}}</td>
 	            </tr>
 	        </tbody>
 	        <tfoot>

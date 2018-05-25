@@ -56,11 +56,45 @@ angular.module('boontingApp')
 						];
 		return status;
 	}
+	const getSalesOrderByCustomers = function(){
+		var groupSalesorderByCustomers = [ 
+			{1 : [ 	{id:1,date:'2018-01-12'},
+					{id:2,date:'2018-01-12'},
+					{id:3,date:'2018-02-12'},
+					{id:4,date:'2018-03-12'},
+					{id:5,date:'2018-02-12'},
+					{id:6,date:'2018-05-12'},
+					{id:7,date:'2018-06-12'},
+					{id:8,date:'2018-03-12'}] },
+			{2 : [{id:1,date:'2018-01-12'},{id:2,date:'2018-03-12'},{id:3,date:'2018-04-12'},{id:4,date:'2018-02-12'} ] },
+			{3 : [{id:1,date:'2018-05-12'},{id:2,date:'2018-05-12'},{id:3,date:'2018-02-12'},{id:4,date:'2018-07-12'},{id:5,date:'2018-04-12'},{id:6,date:'2018-02-12'}] },
+			{4 : [{id:1,date:'2018-04-12'},{id:2,date:'2018-02-12'},{id:3,date:'2018-01-12'},{id:4,date:'2018-05-12'},{id:5,date:'2018-03-12'},{id:6,date:'2018-07-12'}] }
+		]; 
+		return groupSalesorderByCustomers;
+	}
+	const getSalesOrderByLocations = function(){
+		var groupSalesorderByLocations = { 
+			1 : [ 	{id:1,date:'2018-01-12'},
+					{id:2,date:'2018-01-12'},
+					{id:3,date:'2018-02-12'},
+					{id:4,date:'2018-03-12'},
+					{id:5,date:'2018-02-12'},
+					{id:6,date:'2018-05-12'},
+					{id:7,date:'2018-06-12'},
+					{id:8,date:'2018-03-12'}] ,
+			2 : [{id:1,date:'2018-01-12'},{id:2,date:'2018-03-12'},{id:3,date:'2018-04-12'},{id:4,date:'2018-02-12'} ] ,
+			3 : [{id:1,date:'2018-05-12'},{id:2,date:'2018-05-12'},{id:3,date:'2018-02-12'},{id:4,date:'2018-07-12'},{id:5,date:'2018-04-12'},{id:6,date:'2018-02-12'}] ,
+			4 : [{id:1,date:'2018-04-12'},{id:2,date:'2018-02-12'},{id:3,date:'2018-01-12'},{id:4,date:'2018-05-12'},{id:5,date:'2018-03-12'},{id:6,date:'2018-07-12'}] 
+		}; 
+		return groupSalesorderByCustomers;
+	}
 	return {
 		getCustomers 	: getCustomers,
 		getSalesOrders 	: getSalesOrders,
 		getLocations 	: getLocations,
 		getMaterialItems: getMaterialItems,
-		getSalesOrderOptions : getSalesOrderOptions
+		getSalesOrderOptions : getSalesOrderOptions,
+		getSalesOrderByCustomers : getSalesOrderByCustomers,
+		getSalesOrderByLocations : getSalesOrderByLocations
 	}
 }])
