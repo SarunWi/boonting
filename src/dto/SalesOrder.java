@@ -17,6 +17,7 @@ public class SalesOrder {
 	private String stateName;
 	private int shippingId;
 	private int locationId;
+	private String locationName;
 	
 	@XmlElement(name = "salesOrderId")
 	public int getSalesOrderId() {
@@ -82,28 +83,12 @@ public class SalesOrder {
 		this.locationId = locationId;
 	}
 	
-	public SalesOrder(int salesOrderId, String salesOrderRemark, String salesOrderStatus, String createdBy,
-			Date createdDate, String stateName, int shippingId, List<RecycleMaterialList> recycleMaterialList) {
-		super();
-		this.salesOrderId = salesOrderId;
-		this.salesOrderRemark = salesOrderRemark;
-		this.salesOrderStatus = salesOrderStatus;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-		this.stateName = stateName;
-		this.shippingId = shippingId;
+	@XmlElement(name = "locationName")
+	public String getLocationName() {
+		return locationName;
 	}
-	
-	public SalesOrder(int salesOrderId, String salesOrderRemark, String salesOrderStatus, String createdBy,
-			Date createdDate, String stateName, int shippingId) {
-		this.salesOrderId = salesOrderId;
-		this.salesOrderRemark = salesOrderRemark;
-		this.salesOrderStatus = salesOrderStatus;
-		this.createdBy = createdBy;
-		this.createdDate = createdDate;
-		this.stateName = stateName;
-		this.shippingId = shippingId;
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
 	}
-	
 	public SalesOrder() {}
 }

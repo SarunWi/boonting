@@ -221,6 +221,8 @@ public class SalesOrderModel {
 			rs = callSt.executeQuery();
 			while(rs.next()) {
 				SalesOrder salesOrder = new SalesOrder();
+				salesOrder.setLocationId(rs.getInt(1));
+				salesOrder.setLocationName(rs.getString(2));
 				salesOrder.setSalesOrderId(rs.getInt(3));
 				salesOrder.setStateName(rs.getString(8));
 				salesOrder.setSalesOrderRemark(rs.getString(4));
