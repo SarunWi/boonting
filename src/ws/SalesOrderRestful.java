@@ -17,6 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import controller.SalesOrderSrvc;
 import dto.Response;
 import dto.SalesOrder;
+import dto.SalesOrderRequest;
 import dto.SalesOrderResp;
 
 @Path("salesorder")
@@ -78,40 +79,13 @@ public class SalesOrderRestful {
 	}
 	
 	@POST
-	@Path("updateSalesOrder")
+	@Path("insertUpdateSalesOrder")
 	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
 	@Produces(MediaType.APPLICATION_JSON)
-	public String updateSalesOrder(SalesOrder salesOrder) {
-		System.out.println("updateSalesOrder|sales_order_id = " + salesOrder.getSalesOrderId() + "|sales_order_remark = " + salesOrder.getSalesOrderRemark() + "|sales_order_status = " + salesOrder.getSalesOrderStatus() + "|sales_order_sate: " + salesOrder.getStateName());
-		
+	public String insertUpdateSalesOrder(SalesOrderRequest salesOrderReq) {
 		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
-		Response resp = salesOrderSrvc.updateSalesOrder(salesOrder);
+		Response resp = salesOrderSrvc.insertUpdateSalesOrder(salesOrderReq);
 		
-		String json  = "";
-		ObjectMapper mapper = new ObjectMapper();
-        try {
-            json = mapper.writeValueAsString(resp);
-            System.out.println("JSON = " + json);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-			e.printStackTrace();
-		}
-		return json;
-	}
-	
-	@POST
-	@Path("insertSalesOrder")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String insertSalesOrder(SalesOrder salesOrder) {
-		System.out.println("insertSalesOrder");
-		System.out.println("getSalesOrderRemark: " + salesOrder.getSalesOrderRemark());
-		System.out.println("getSalesOrderStatus: " + salesOrder.getSalesOrderStatus());
-		System.out.println("getCreatedBy: " + salesOrder.getCreatedBy());
-		System.out.println("getRecycleMaterialList: " + salesOrder.getRecycleMaterialList());
-		
-		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
-		Response resp = salesOrderSrvc.insertSalesOrder(salesOrder);
 		String json  = "";
 		ObjectMapper mapper = new ObjectMapper();
         try {
@@ -129,10 +103,10 @@ public class SalesOrderRestful {
 	@Path("getSalesOrderGroupByLocation/{fromDate: .*}/{toDate: .*}")
 	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getSalesOrderGroupByLocation(@PathParam("fromDate") Date fromDate,
-            @PathParam("toDate") Date toDate) {
+	public String getSalesOrderGroupByLocation(@PathParam("fromDate") String fromDate,@PathParam("toDate") String toDate)       
+	{
 		System.out.println("getSalesOrderGroupByLocation");
-		
+		System.out.println(fromDate +"and" + toDate);
 		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
 		SalesOrderResp resp = salesOrderSrvc.getSalesOrderGroupByLocation(fromDate, toDate);
 		
@@ -148,26 +122,51 @@ public class SalesOrderRestful {
 		}
 		return json;
 	}
+
+	@GET
+	@Path("getSalesOrderGroupByCustomer/{fromDate: .*}/{toDate: .*}")
+	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getSalesOrderGroupByCustomer(@PathParam("fromDate") String fromDate,@PathParam("toDate") String toDate)       
+	{
+		System.out.println("getSalesOrderGroupByCustomer");
+		System.out.println(fromDate +"and" + toDate);
+		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
+		SalesOrderResp resp = salesOrderSrvc.getSalesOrderGroupByCustomer(fromDate, toDate);
+		
+		String json  = "";
+		ObjectMapper mapper = new ObjectMapper();
+        try {
+            json = mapper.writeValueAsString(resp);
+            System.out.println("JSON = " + json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
 	
-//	@GET
-//	@Path("getSalesOrderGroupByCustomer")
-//	@Produces(MediaType.TEXT_PLAIN)
-//	public String getSalesOrderGroupByCustomer(Date fromDate, Date toDate) {
-//		System.out.println("getSalesOrderGroupByCustomer");
-//		
-//		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
-//		SalesOrderResp resp = salesOrderSrvc.getSalesOrderGroupByCustomer(fromDate, toDate);
-//		
-//		String json  = "";
-//		ObjectMapper mapper = new ObjectMapper();
-//        try {
-//            json = mapper.writeValueAsString(resp);
-//            System.out.println("JSON = " + json);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return json;
-//	}
+	@POST
+	@Path("deleteSalesOrder")
+	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Produces(MediaType.APPLICATION_JSON)
+	public String deleteSalesOrder(SalesOrder salesOrder) 
+	{
+	
+		System.out.println("deleteSalesOrder|sales_order_id = " + salesOrder.getSalesOrderId());
+		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
+		Response resp = salesOrderSrvc.deleteSalesOrder(salesOrder.getSalesOrderId());		
+		String json  = "";
+		ObjectMapper mapper = new ObjectMapper();
+        try {
+            json = mapper.writeValueAsString(resp);
+            System.out.println("JSON = " + json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
 }

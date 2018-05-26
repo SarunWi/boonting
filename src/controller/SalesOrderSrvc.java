@@ -5,6 +5,7 @@ import java.util.List;
 
 import dto.Response;
 import dto.SalesOrder;
+import dto.SalesOrderRequest;
 import dto.SalesOrderResp;
 import model.SalesOrderModel;
 import util.Constants;
@@ -13,8 +14,23 @@ public class SalesOrderSrvc {
 	private int page;
 	private int rowsperpage;
 	private String orderfield;
+	
+	private int sale_order_id;
+	private String sale_order_remark;
+	private String sale_order_status;
+	private String sale_order_state_name;
+	private int shipping_id;
 		
 	public SalesOrderSrvc() {}
+	
+	public SalesOrderSrvc(int SaleOrderid,String remark,String status,String statename,int ShipingId) 
+	{
+		this.sale_order_id = SaleOrderid;
+		this.sale_order_remark = remark;
+		this.sale_order_status = status;
+		this.sale_order_state_name =statename;
+		this.shipping_id = ShipingId;
+	}
 	
 	public SalesOrderResp getSalesOrder(int page, int rowsperpage, String orderfield) {
 		SalesOrderModel salesOrderModel = new SalesOrderModel();
@@ -39,41 +55,32 @@ public class SalesOrderSrvc {
 		return salesOrderResp;
 	}
 	
-	public Response updateSalesOrder(SalesOrder salesOrder) {
+	public Response insertUpdateSalesOrder(SalesOrderRequest salesOrder) {
 		SalesOrderModel salesOrderModel = new SalesOrderModel();
 		Response resp = new Response();
-		
-		if(salesOrder.getSalesOrderStatus() != "" || salesOrder.getSalesOrderStatus() != null) {
-			if(salesOrderModel.checkSalesOrderStatus(salesOrder.getSalesOrderStatus()) == 0) { // dont't have this state
-				resp.setIsSuccess(false);
-				resp.setErrorMessage("Dont't have this state");
-				return resp;
-			} else {
-				Context context = new Context();
+		Context context = new Context();
 
-				if(salesOrder.getSalesOrderStatus().equals(Constants.WAITING_CNFRM_FROM_SELLER_STATE)) {
-					SellerConfirmState sellerConfirmState = new SellerConfirmState();
-					sellerConfirmState.doAction(context);
-				} else if(salesOrder.getSalesOrderStatus().equals(Constants.CNFRM_SALES_ORDER_STATE)) {
-					SearchAppointmentState searchAppointmentState = new SearchAppointmentState();
-					searchAppointmentState.doAction(context);
-				} else if(salesOrder.getSalesOrderStatus().equals(Constants.RECYCLED_CHECK_STATE)) {
-					RecycledCheckState recycleCheckSate = new RecycledCheckState();
-					recycleCheckSate.doAction(context);
-				} else if(salesOrder.getSalesOrderStatus().equals(Constants.TRAVELLING_STATE)) {
-					TravellingState travellingState = new TravellingState();
-					travellingState.doAction(context);
-				} else if(salesOrder.getSalesOrderStatus().equals(Constants.PAYMENT_STATE)) {
-					PaymentState paymentState = new PaymentState();
-					paymentState.doAction(context);
-				}
-			}
+		if(salesOrder.getStatus().equals(Constants.WAITING_CNFRM_FROM_SELLER_STATE)) {
+			SellerConfirmState sellerConfirmState = new SellerConfirmState();
+			sellerConfirmState.doAction(context);
+		} else if(salesOrder.getStatus().equals(Constants.CNFRM_SALES_ORDER_STATE)) {
+			SearchAppointmentState searchAppointmentState = new SearchAppointmentState();
+			searchAppointmentState.doAction(context);
+		} else if(salesOrder.getStatus().equals(Constants.RECYCLED_CHECK_STATE)) {
+			RecycledCheckState recycleCheckSate = new RecycledCheckState();
+			recycleCheckSate.doAction(context);
+		} else if(salesOrder.getStatus().equals(Constants.TRAVELLING_STATE)) {
+			TravellingState travellingState = new TravellingState();
+			travellingState.doAction(context);
+		} else if(salesOrder.getStatus().equals(Constants.PAYMENT_STATE)) {
+			PaymentState paymentState = new PaymentState();
+			paymentState.doAction(context);
 		}
 		
-		int updateSuccess = salesOrderModel.updateSalesOrder(salesOrder);
+		int updateSuccess = salesOrderModel.insertUpdateSalesOrder(salesOrder);
 		if(updateSuccess == 1) {
 			resp.setIsSuccess(true);
-			resp.setErrorMessage("");
+			resp.setErrorMessage("Success");
 		} else {
 			resp.setIsSuccess(false);
 			resp.setErrorMessage("Cannot update sales order status");
@@ -81,14 +88,15 @@ public class SalesOrderSrvc {
 		return resp;
 	}
 	
-	public Response insertSalesOrder(SalesOrder salesOrder) {
+	public Response insertSalesOrder(SalesOrderRequest salesOrderReq) {
 		SalesOrderModel salesOrderModel = new SalesOrderModel();
 		Response resp = new Response();
-		int updateSuccess = salesOrderModel.insertSalesOrder(salesOrder);
+		int updateSuccess = salesOrderModel.insertUpdateSalesOrder(salesOrderReq);
+		System.out.println("updateSuccess: " + updateSuccess);
 		
 		if(updateSuccess == 1) {
 			resp.setIsSuccess(true);
-			resp.setErrorMessage("");
+			resp.setErrorMessage("Insert sales order success");
 		} else {
 			resp.setIsSuccess(false);
 			resp.setErrorMessage("Cannot update sales order status");
@@ -96,25 +104,43 @@ public class SalesOrderSrvc {
 		return resp;
 	}
 	
-	public SalesOrderResp getSalesOrderGroupByLocation(Date fromDate, Date toDate) {
+	public SalesOrderResp getSalesOrderGroupByLocation(String fromDate, String toDate) {
 		SalesOrderModel salesOrderModel = new SalesOrderModel();
 		SalesOrderResp salesOrderResp = new SalesOrderResp();
-		
-		salesOrderResp.setRecords(salesOrderModel.getSalesOrderGroupByLocation(fromDate, toDate));
-		salesOrderResp.setTotalRecords(getTotalRecord(0, salesOrderModel));
-		
+		List<SalesOrder> salesOrderList = salesOrderModel.getSalesOrderGroupByLocation(fromDate, toDate);
+		salesOrderResp.setRecords(salesOrderList);
+		salesOrderResp.setTotalRecords(salesOrderList.size());
+		salesOrderResp.setPage(1);
 		return salesOrderResp;
 	}
 	
-	public SalesOrderResp getSalesOrderGroupByCustomer(Date fromDate, Date toDate) {
+	public SalesOrderResp getSalesOrderGroupByCustomer(String fromDate, String toDate) {
 		SalesOrderModel salesOrderModel = new SalesOrderModel();
 		SalesOrderResp salesOrderResp = new SalesOrderResp();
-		
-		salesOrderResp.setRecords(salesOrderModel.getSalesOrderGroupByCustomer(fromDate, toDate));
-		salesOrderResp.setTotalRecords(getTotalRecord(0, salesOrderModel));
-		
+		List<SalesOrder> salesOrderList = salesOrderModel.getSalesOrderGroupByCustomer(fromDate, toDate);
+		salesOrderResp.setRecords(salesOrderList);
+		salesOrderResp.setTotalRecords(salesOrderList.size());
+		salesOrderResp.setPage(1);
 		return salesOrderResp;
 	}
+	
+	public Response deleteSalesOrder(int salesOrderId) 
+    {
+		SalesOrderModel salesOrderModel = new SalesOrderModel();
+		int salesOrderExist = salesOrderModel.deleteSaleOrder(salesOrderId);
+		Response resp = new Response();
+		if(salesOrderExist == 1) {
+			resp.setIsSuccess(true);
+			resp.setErrorMessage("delete success");
+		} else if(salesOrderExist == 0) {
+			resp.setIsSuccess(false);
+			resp.setErrorMessage("sales order does not exist");
+		} else {
+			resp.setIsSuccess(false);
+			resp.setErrorMessage("cannot delete sales order");
+		}
+		return resp;					
+    }
 	
 	private List<SalesOrder> getSalesOrderList(int page, int rowsperpage, String orderfield, SalesOrderModel salesOrderModel) {
 		List<SalesOrder> salesOrderList = salesOrderModel.getSalesOrderList(page, rowsperpage, orderfield);

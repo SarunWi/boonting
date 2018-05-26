@@ -9,7 +9,7 @@ public class Location {
 	private float locationLongitude;
 	private float locationLatitude;
 	private String locationDescription;
-	
+	private String locationAddress;
 	@XmlElement(name = "locationId")
 	public int getLocationId() {
 		return locationId;
@@ -50,14 +50,23 @@ public class Location {
 		this.locationDescription = locationDescription;
 	}
 	
+	@XmlElement(name = "locationAddress")
+	public String getLocationAddress() {
+		return locationAddress;
+	}
+	public void setLocationAddress(String locationAddress) {
+		this.locationAddress = locationAddress;
+	}
+		
 	public Location(int locationId, String locationName, float locationLongitude, float locationLatitude,
-			String locationDescription) {
+			String locationDescription,String locationAddress) {
 		super();
 		this.locationId = locationId;
 		this.locationName = locationName;
 		this.locationLongitude = locationLongitude;
 		this.locationLatitude = locationLatitude;
 		this.locationDescription = locationDescription;
+		this.locationAddress = locationAddress;
 	}
 	
 	public Location() {

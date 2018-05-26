@@ -16,6 +16,7 @@ public class SalesOrder {
 	private Date createdDate;
 	private String stateName;
 	private int shippingId;
+	private int locationId;
 	private List<RecycleMaterialList> recycleMaterialList;
 	
 	@XmlElement(name = "salesOrderId")
@@ -73,12 +74,21 @@ public class SalesOrder {
 	public void setRecycleMaterialList(List<RecycleMaterialList> recycleMaterialList) {
 		this.recycleMaterialList = recycleMaterialList;
 	}
+	
 	@XmlElement(name = "shippingId")
 	public int getShippingId() {
 		return shippingId;
 	}
 	public void setShippingId(int shippingId) {
 		this.shippingId = shippingId;
+	}
+	
+	@XmlElement(name = "locationId")
+	public int getLocationId() {
+		return locationId;
+	}
+	public void setLocationId(int locationId) {
+		this.locationId = locationId;
 	}
 	
 	public SalesOrder(int salesOrderId, String salesOrderRemark, String salesOrderStatus, String createdBy,
@@ -93,7 +103,17 @@ public class SalesOrder {
 		this.shippingId = shippingId;
 		this.recycleMaterialList = recycleMaterialList;
 	}
-	public SalesOrder() {
-		super();
+	
+	public SalesOrder(int salesOrderId, String salesOrderRemark, String salesOrderStatus, String createdBy,
+			Date createdDate, String stateName, int shippingId) {
+		this.salesOrderId = salesOrderId;
+		this.salesOrderRemark = salesOrderRemark;
+		this.salesOrderStatus = salesOrderStatus;
+		this.createdBy = createdBy;
+		this.createdDate = createdDate;
+		this.stateName = stateName;
+		this.shippingId = shippingId;
 	}
+	
+	public SalesOrder() {}
 }

@@ -6,4 +6,7 @@ public class Constants {
 	public static final String RECYCLED_CHECK_STATE = "RecycledCheckState";
 	public static final String TRAVELLING_STATE = "TravellingState";
 	public static final String PAYMENT_STATE = "PaymentState";
+	
+	public static final String RETURN_STATUS_SUCCESS = "SUCCESS";
+	public static final String RETURN_STATUS_FAIL = "FAIL";
 }
