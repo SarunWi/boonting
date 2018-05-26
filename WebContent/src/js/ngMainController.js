@@ -5,7 +5,7 @@ angular.module('boontingApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'smart-tab
     })
     .config(function($routeProvider) {
         $routeProvider
-            .when("/", {
+            .when("/main", {
                 templateUrl: "src/main.html",
                 controller: "mainPageController as ctrl"
             })
