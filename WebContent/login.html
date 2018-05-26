@@ -51,9 +51,13 @@
                 username: "",
                 password: ""
             };
+            $scope.resultLogin = { isSuccess : false , isLogin : false, errorMessage: ''}
             $scope.login = function(){
                 httpFactory.login($scope.user.username, $scope.user.password).then(function(result){
-                    if(result){
+                    console.log(result.data);
+                    $scope.resultLogin = result.data;
+                    $scope.resultLogin.isLogin = true;
+                    if(result.data.isSuccess){
                         redirect();
                     }
                 })
@@ -98,6 +102,7 @@
                     <form name="userForm">
                         <md-content layout-padding>
                             <h4> Login to Boon Ting</h4>
+                            <p ng-if="resultLogin.isLogin" style="color:red;"> {{resultLogin.errorMessage}}</p>
                             <div layout-gt-sm="row" style="text-align: left;">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Username</label>
