@@ -14,7 +14,7 @@ angular.module('boontingApp')
             } else {
                 $http.get(baseURL + '/Boonting/rest/Customer/getCustomer/')
                     .then(function(data, status, headers, config) {
-                        console.log(data.data.records);
+                        // console.log(data.data.records);
                         deferred.resolve(data.data.records);
                     });
             }
@@ -27,6 +27,7 @@ angular.module('boontingApp')
             } else {
                 $http.get(baseURL + '/Boonting/rest/salesorder/getSalesorders/1/100/')
                     .then(function(data) {
+                        // console.log('salesorder data :',data);
                         deferred.resolve(data.data.records);
                     });
             }
@@ -36,9 +37,10 @@ angular.module('boontingApp')
             var deferred = $q.defer();
             if (false) {
                 deferred.resolve(mockUpFactory.getLocations());
-            }else{  
-                    $http.get(baseURL + '/Boonting/rest/Location/getLocations')
+            } else {
+                $http.get(baseURL + '/Boonting/rest/Location/getLocations')
                     .then(function(data) {
+                        // console.log('location data :',data);
                         deferred.resolve(data.data.records);
                     });
             }
@@ -58,36 +60,56 @@ angular.module('boontingApp')
             }
             return deferred.promise;
         }
-        var insertSalesOrder = function(salesOrder = {}) {
+        var getSalesOrderByDate = function(fromDate, toDate) {
             var deferred = $q.defer();
-            if (isMockUp) {
-                deferred.resolve(true);
-            }else{
-                $http.post(baseURL+'/Boonting/rest/Location/insertLocation', 
-                                    { 'username'    : username, 
-                                    'password'     : password } 
-                    ).then(function(data, status, headers, config) {
-                        deferred.resolve(data, status, headers);
-                    });
-            }
+            $http.get(baseURL + '/Boonting/rest/salesorder/getSalesOrderGroupByLocation//')
+                .then(function(data) {
+                    // console.log(data.data.records);
+                    deferred.resolve(data.data.records);
+                })
+
             return deferred.promise;
         }
-        var updateSalesOrder = function(salesOrder = {}) {
+        var upsertSalesOrder = function(salesOrder) {
             var deferred = $q.defer();
-            if (isMockUp) {
-                deferred.resolve(true);
-            }
+            var transformedOrder = toSalesOrder(salesOrder);
+
+            console.log(JSON.stringify(transformedOrder));
+            $http.post(baseURL + '/Boonting/rest/salesorder/insertUpdateSalesOrder', transformedOrder)
+                .then(function(data) {
+                    // console.log(data);
+                    deferred.resolve(data);
+                })
+
             return deferred.promise;
+        }
+        var toSalesOrder = function(order) {
+            return {
+                id: order.salesOrderId ? order.salesOrderId : "",
+                location: order.locationId,
+                username: order.createdBy,
+                created_date: order.createdDate,
+                remark: order.salesOrderRemark,
+                state: order.stateName,
+                status: order.salesOrderStatus ? order.salesOrderStatus : "",
+                items: toOrderItemToJSONString(order.recycleMaterialList)
+            };
+        }
+        var toOrderItemToJSONString = function(array) {
+            var items = [];
+            for (var i = 0; i < array.length; i++) {
+                items.push({ rml_name: array[i].rml_name, rml_quantity: array[i].rml_quantity });
+            }
+            return JSON.stringify(items);
         }
         var insertLocation = function(location = {}) {
             var deferred = $q.defer();
             if (false) {
                 deferred.resolve(true);
-            }else{
-                $http.post(baseURL+'/Boonting/rest/Location/insertLocation', location
-                    ).then(function(data, status, headers, config) {
-                        deferred.resolve(data, status, headers);
-                    });
+            } else {
+                $http.post(baseURL + '/Boonting/rest/Location/insertLocation', location).then(function(data, status, headers, config) {
+                    deferred.resolve(data, status, headers);
+                });
             }
             return deferred.promise;
         }
@@ -95,11 +117,10 @@ angular.module('boontingApp')
             var deferred = $q.defer();
             if (false) {
                 deferred.resolve(true);
-            }else{
-                $http.post(baseURL+'/Boonting/rest/Location/updateLocation', location
-                    ).then(function(data, status, headers, config) {
-                        deferred.resolve(data, status, headers);
-                    });
+            } else {
+                $http.post(baseURL + '/Boonting/rest/Location/updateLocation', location).then(function(data, status, headers, config) {
+                    deferred.resolve(data, status, headers);
+                });
             }
             return deferred.promise;
         }
@@ -107,7 +128,7 @@ angular.module('boontingApp')
             var deferred = $q.defer();
             if (false) {
                 deferred.resolve(mockUpFactory.getMaterialItems());
-            }else{
+            } else {
                 $http.get(baseURL + '/Boonting/rest/Material/getMaterialItems')
                     .then(function(data) {
                         deferred.resolve(data.data.records);
@@ -122,17 +143,32 @@ angular.module('boontingApp')
             }
             return deferred.promise;
         }
+        var getRecycleMaterailById = function(orderId) {
+            var deferred = $q.defer();
+            console.log(orderId);
+            if (orderId != undefined) {
+                $http.get(baseURL + '/Boonting/rest/salesorder/getMeterialList/' + orderId)
+                    .then(function(data) {
+                        console.log(data);
+                        deferred.resolve(data.data);
+                    });
+            } else {
+                deferred.resolve([]);
+            }
+            return deferred.promise;
+        }
         return {
             getCustomer: getCustomer,
             getSalesOrder: getSalesOrder,
             getLocation: getLocation,
             getSalesOrderByLocation: getSalesOrderByLocation,
             getSalesOrderByCustomer: getSalesOrderByCustomer,
-            insertSalesOrder: insertSalesOrder,
-            updateSalesOrder: updateSalesOrder,
+            upsertSalesOrder: upsertSalesOrder,
             insertLocation: insertLocation,
             updateLocation: updateLocation,
             getMaterialItem: getMaterialItem,
-            getSalesOrderOption: getSalesOrderOption
+            getSalesOrderOption: getSalesOrderOption,
+            getSalesOrderByDate: getSalesOrderByDate,
+            getRecycleMaterailById : getRecycleMaterailById
         }
     }])

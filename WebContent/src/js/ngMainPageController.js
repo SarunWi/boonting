@@ -5,11 +5,13 @@ angular.module('boontingApp')
             title: "Svg-",
             background: ""
         });
-
+        $scope.redirect = function(url){
+            window.location.href=url;
+        }
         function buildGridModel(tileTmpl) {
             var it, results = [];
 
-            for (var j = 0; j < 8; j++) {
+            for (var j = 0; j < 4; j++) {
 
                 it = angular.extend({}, tileTmpl);
                 it.icon = it.icon + (j + 1);
@@ -20,42 +22,50 @@ angular.module('boontingApp')
                     case 1:
                         it.background = "red";
                         it.span.row = it.span.col = 2;
+                        it.title="Customer"
+                        it.link ="/#!/customer";
                         break;
 
                     case 2:
                         it.background = "green";
+                        it.title = "Sales Order"
+                        it.link ="/#!/salesOrder";
                         break;
                     case 3:
                         it.background = "darkBlue";
+                        it.title = "Location";
+                        it.link ="/#!/location";
                         break;
                     case 4:
                         it.background = "blue";
                         it.span.col = 2;
+                        it.title = "Report"
+                        it.link ="/#!/report";
                         break;
 
-                    case 5:
-                        it.background = "yellow";
-                        it.span.row = it.span.col = 2;
-                        break;
+                    // case 5:
+                    //     it.background = "yellow";
+                    //     it.span.row = it.span.col = 2;
+                    //     break;
 
-                    case 6:
-                        it.background = "pink";
-                        break;
-                    case 7:
-                        it.background = "darkBlue";
-                        break;
-                    case 8:
-                        it.background = "purple";
-                        break;
-                    case 9:
-                        it.background = "deepBlue";
-                        break;
-                    case 10:
-                        it.background = "lightPurple";
-                        break;
-                    case 11:
-                        it.background = "yellow";
-                        break;
+                    // case 6:
+                    //     it.background = "pink";
+                    //     break;
+                    // case 7:
+                    //     it.background = "darkBlue";
+                    //     break;
+                    // case 8:
+                    //     it.background = "purple";
+                    //     break;
+                    // case 9:
+                    //     it.background = "deepBlue";
+                    //     break;
+                    // case 10:
+                    //     it.background = "lightPurple";
+                    //     break;
+                    // case 11:
+                    //     it.background = "yellow";
+                    //     break;
                 }
 
                 results.push(it);

@@ -16,7 +16,7 @@
     height: 500px;
     overflow-y: auto;
 }
-
+.grab {cursor: -webkit-grab; cursor: grab;}
 table {
     border-collapse: separate;
     border-spacing: 0;

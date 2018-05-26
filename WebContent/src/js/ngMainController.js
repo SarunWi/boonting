@@ -32,7 +32,3 @@ angular.module('boontingApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'smart-tab
         ctrl.wrapper = { pageHeader: 'some header' };
 
     }])
-    .controller('mainPage', ['$q', function($q) {
-        var ctrl = this;
-        ctrl.wrapper = { pageHeader: 'main' };
-    }])

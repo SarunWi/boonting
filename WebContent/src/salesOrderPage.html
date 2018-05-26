@@ -18,19 +18,19 @@
 	        <thead>
 	            <tr>
 	                <th st-sort="id">Action</th>
-	                <th st-sort="customer.name">Customer</th>
-	                <th st-sort="date">Order Date</th>
-	                <th st-sort="status">State</th>
-	                <th st-sort="location">Location</th>
+	                <th st-sort="createdBy">Customer</th>
+	                <th st-sort="createdDate">Order Date</th>
+	                <th st-sort="stateName">State</th>
+	                <th st-sort="locationId">Location</th>
 	            </tr>
 	        </thead>
 	        <tbody>
 	            <tr ng-repeat="item in ctrl.wrapper.displaySalesOrders">
 	                <td><a ng-click="ctrl.showAdvanced($event,item)">Edit</a></td>
-	                <td>{{item.createdBy}}</td>
+	                <td>{{ctrl.optionWrapper.customerMapping[item.createdBy] +item.createdBy}} </td>
 	                <td>{{item.createdDate}}</td>
 	                <td>{{item.stateName}}</td>
-	                <td>{{item.shippingId}}</td>
+	                <td>{{ctrl.optionWrapper.locationMapping[item.locationId].locationName}}</td>
 	            </tr>
 	        </tbody>
 	        <tfoot>

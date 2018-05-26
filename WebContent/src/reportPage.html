@@ -1,11 +1,11 @@
-<md-content>
+<md-content style="overflow-y:hidden !important;">
     <md-toolbar class="md-grey" style="background-color:rgb(191, 29, 96) !important;">
         <div class="md-toolbar-tools">
             <h2>Report</h2>
             <form name="reportSelectedForm" style="padding-left: 1rem;padding-top: 1rem;">
                 <div layout-gt-md="row" layout-md="row">
-                    <md-input-container class="md-block" flex-gt-sm>
-                        <md-select ng-model="ctrl.wrapper.reportSelected">
+                    <md-input-container class="md-block" flex-gt-sm >
+                        <md-select ng-model="ctrl.wrapper.reportSelected" ng-change="ctrl.switchReport()">
                             <md-option ng-repeat="option in ctrl.wrapper.reportOptions" value="{{option.value}}">
                                 {{option.label}}
                             </md-option>
@@ -18,35 +18,22 @@
 </md-content>
 <md-content>
     <div style="width: 100%;">
-        <!-- <table 	st-table="ctrl.wrapper.displaySalesOrders" 
-	    		st-safe-src="ctrl.wrapper.salesOrders" 
-	    		class="table table-striped" 
+        <table 	class="table table-striped" 
 	    		style="border-left: 1px solid #dddbda;border-right:1px solid #dddbda;">
 	        <thead>
-	            <tr>
-	                <th st-sort="id">No</th>
-	                <th st-sort="customer.name">Customer</th>
-	                <th st-sort="date">Order Date</th>
-	                <th st-sort="status">Status</th>
-	                <th st-sort="location">Location</th>
+	            <tr >
+	                <th ng-if="ctrl.wrapper.reportSelected=='SalesorderByCustomer'">Customer</th>
+	                <th ng-if="ctrl.wrapper.reportSelected=='SalesorderByLocation'">Location</th>
+	                <th ng-repeat="state in ctrl.wrapper.stateOption" >{{state}}</th>
 	            </tr>
 	        </thead>
 	        <tbody>
-	            <tr ng-repeat="item in ctrl.wrapper.displaySalesOrders">
-	                <td>{{item.id}}</td>
-	                <td>{{item.customer.name}}</td>
-	                <td>{{item.date}}</td>
-	                <td>{{item.status}}</td>
-	                <td>{{item.location.name}}</td>
+	            <tr ng-repeat="item in ctrl.reportWrapper.groupReport">
+	                <td ng-if="ctrl.wrapper.reportSelected=='SalesorderByCustomer'">{{ctrl.wrapper.customers[item.key].userFirstName +' '+ctrl.wrapper.customers[item.key].userLastName }}</td>
+	                <td ng-if="ctrl.wrapper.reportSelected=='SalesorderByLocation'">{{ctrl.wrapper.locations[item.key].locationName}}</td>
+	                <td ng-repeat="state in ctrl.wrapper.stateOption">{{item.val[state].length?item.val[state].length:0 }}</td>
 	            </tr>
 	        </tbody>
-	        <tfoot>
-	            <tr>
-	                <td colspan="5" class="text-center">
-	                    <div st-pagination="st-pagination" st-items-by-page="6" st-displayed-pages="7"></div>
-	                </td>
-	            </tr>
-	        </tfoot>
-	    </table> -->
+	    </table>
     </div>
 </md-content>
