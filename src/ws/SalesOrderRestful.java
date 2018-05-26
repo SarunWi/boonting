@@ -1,7 +1,7 @@
 package ws;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -15,6 +15,7 @@ import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import controller.SalesOrderSrvc;
+import dto.RecycleMaterialList;
 import dto.Response;
 import dto.SalesOrder;
 import dto.SalesOrderRequest;
@@ -157,6 +158,30 @@ public class SalesOrderRestful {
 		System.out.println("deleteSalesOrder|sales_order_id = " + salesOrder.getSalesOrderId());
 		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
 		Response resp = salesOrderSrvc.deleteSalesOrder(salesOrder.getSalesOrderId());		
+		String json  = "";
+		ObjectMapper mapper = new ObjectMapper();
+        try {
+            json = mapper.writeValueAsString(resp);
+            System.out.println("JSON = " + json);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+			e.printStackTrace();
+		}
+		return json;
+	}
+	
+	@GET
+	@Path("getMeterialList/{saleOrderId: .*}")
+	@Consumes({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getMeterialList(@PathParam("saleOrderId") String saleOrderId)       
+	{
+		System.out.println("getMeterialList: SaleorderId= "+ saleOrderId);
+		SalesOrderSrvc salesOrderSrvc = new SalesOrderSrvc();
+		List<RecycleMaterialList> resp = salesOrderSrvc.getMeterialList(Integer.parseInt(saleOrderId));		
+		
+		//SalesOrderResp resp= salesOrderSrvc.getMeterialList(Integer.parseInt(saleOrderId));		
 		String json  = "";
 		ObjectMapper mapper = new ObjectMapper();
         try {
