@@ -28,7 +28,7 @@ angular.module('boontingApp', ['ngRoute', 'ngMaterial', 'ngMessages', 'smart-tab
     })
     .controller('mainController', ['$q', '$scope', function($q, $scope) {
         var ctrl = this;
-        // $scope.currentNavItem  = 'home';
+        $scope.currentNavItem  = '/main';
         ctrl.wrapper = { pageHeader: 'some header' };
 
     }])

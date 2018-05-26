@@ -70,7 +70,7 @@
                 if(isMockUp){
                     deferred.resolve(true);
                 }else{
-                    $http.post(baseURL+'/Boonting/rest/login/', { 'username'    : username, 
+                    $http.post(baseURL+'/rest/login/', { 'username'    : username, 
                                     'password'     : password } 
                     ).then(function(data, status, headers, config) {
                         deferred.resolve(data, status, headers);
@@ -90,10 +90,10 @@
         <div style="text-align: center;width: 100%;display: block;padding-top: 6%;">
             <div layout="row" layout-align="left center" style="padding-bottom: 1%">
                 <span style="display:inline-block;max-width: 20%;max-height: 110px;margin: 0 auto;">
-                    <img class="rounded-circle" src="Boonting/src/icon/boonting_logo.jpg" height="100%"></img>
+                    <img class="rounded-circle" src="/Boonting/src/icon/boonting_logo.jpg" height="100%"></img>
                 </span>
             </div>
-            <md-content class="md-padding" layout-xs="column" layout="row"  >
+            <md-content class="md-padding" layout-xs="column" layout="row" style="height:400px;" >
                 <div style="width: 30%;height:40%;margin:0 auto;">
                     <form name="userForm">
                         <md-content layout-padding>
