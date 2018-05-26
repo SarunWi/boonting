@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 validateFragments=true
-validation.actions-missing-required-attribute=1
+validation.actions-missing-required-attribute=2
 validation.actions-non-empty-inline-tag=2
 validation.actions-unexpected-rtexprvalue=2
 validation.actions-unknown-attribute=2
@@ -26,6 +26,6 @@ validation.translation-tei-class-not-instantiated=2
 validation.translation-tei-class-runtime-exception=2
 validation.translation-tei-message=2
 validation.translation-usebean-ambiguous-type-info=2
-validation.translation-usebean-invalid-id=1
+validation.translation-usebean-invalid-id=2
 validation.translation-usebean-missing-type-info=2
 validation.use-project-settings=true
