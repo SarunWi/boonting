@@ -64,7 +64,7 @@
         }])
         .factory('httpFactory',['$q','$http',function($q,$http){
             const isMockUp = false;
-            const baseURL = 'http://122.155.202.161:8080';
+            const baseURL = 'http://122.155.202.161:8080/Boonting';
             var login = function(username='',password=''){
                 var deferred = $q.defer();
                 if(isMockUp){
