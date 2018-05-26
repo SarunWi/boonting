@@ -8,6 +8,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.RecycleMaterialList;
 import dto.SalesOrder;
 import dto.SalesOrderRequest;
 import util.Constants;
@@ -34,13 +35,15 @@ public class SalesOrderModel {
 			String sql = "select * from (select so.sales_order_id, so.sales_order_remark, so.sales_order_status, u.username, so.created_date, sos.state_name, s.shipping_id, l.location_id, row_number() over (order by so."+ orderfield + ")"
 					+ " from boonting.sales_order so"
 					+ " join boonting.sales_order_state sos"
-					+ " on so.sales_order_id = sos.sales_order_state_id"
+					+ " on so.sales_order_state_id = sos.sales_order_state_id"
 					+ " join boonting.user u"
 					+ " on so.created_by = u.username"
 					+ " left join boonting.shipping s"
 					+ " on s.shipping_id = so.shipping_id"
 					+ " left join boonting.location l"
-					+ " on l.location_id = s.location_id) salesorder"
+					+ " on l.location_id = s.location_id"
+					+ " left join boonting.recycle_material_list rml"
+					+ " on rml.sales_order_id = so.sales_order_id) salesorder"
 					+ " where row_number BETWEEN ? AND ?";
 			
 			callSt = conn.prepareCall(sql);
@@ -107,7 +110,7 @@ public class SalesOrderModel {
 			String sql = "select so.sales_order_id, so.sales_order_remark, so.sales_order_status, u.username, so.created_date, sos.state_name, s.shipping_id, l.location_id"
 					+ " from boonting.sales_order so"
 					+ " join boonting.sales_order_state sos"
-					+ " on so.sales_order_id = sos.sales_order_state_id"
+					+ " on so.sales_order_state_id = sos.sales_order_state_id"
 					+ " join boonting.user u"
 					+ " on so.created_by = u.username"
 					+ " left join boonting.shipping s"
@@ -308,5 +311,36 @@ public class SalesOrderModel {
 			e.printStackTrace();
 		}
 		return response;
+	}
+	
+	public List<RecycleMaterialList> getMeterialList(int saleOrderId) {
+		Connection conn = DatabaseUtil.getConnection();
+		CallableStatement callSt = null;
+		ResultSet rs = null;
+		List<RecycleMaterialList> RecycleMaterialList = new ArrayList<RecycleMaterialList>();
+		
+		try {
+			String sql = "select * FROM boonting.recycle_material_list";
+			if(saleOrderId != 0) 
+			{
+				sql = sql + " where sales_order_id ="+ saleOrderId;
+			}
+			callSt = conn.prepareCall(sql);
+			System.out.println("getMeterialList sql: " + callSt.toString());
+			
+			rs = callSt.executeQuery();
+			while(rs.next()) {
+				RecycleMaterialList RecycleMaterial = new RecycleMaterialList();
+				RecycleMaterial.setRmlListId(rs.getInt(1));
+				RecycleMaterial.setRmlName(rs.getString(2));
+				RecycleMaterial.setRmlQuantity(rs.getInt(3));
+				RecycleMaterialList.add(RecycleMaterial);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			DatabaseUtil.close(callSt, rs, conn);
+		}
+		return RecycleMaterialList;
 	}
 }

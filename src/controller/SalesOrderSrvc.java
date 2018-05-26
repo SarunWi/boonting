@@ -1,8 +1,8 @@
 package controller;
 
-import java.sql.Date;
 import java.util.List;
 
+import dto.RecycleMaterialList;
 import dto.Response;
 import dto.SalesOrder;
 import dto.SalesOrderRequest;
@@ -141,6 +141,13 @@ public class SalesOrderSrvc {
 		}
 		return resp;					
     }
+	
+	public List<RecycleMaterialList>getMeterialList(int saleOrderId)
+	{
+		SalesOrderModel salesOrderModel = new SalesOrderModel();
+		List<RecycleMaterialList> RecycleMaterialList = salesOrderModel.getMeterialList(saleOrderId);
+		return RecycleMaterialList;
+	}
 	
 	private List<SalesOrder> getSalesOrderList(int page, int rowsperpage, String orderfield, SalesOrderModel salesOrderModel) {
 		List<SalesOrder> salesOrderList = salesOrderModel.getSalesOrderList(page, rowsperpage, orderfield);
