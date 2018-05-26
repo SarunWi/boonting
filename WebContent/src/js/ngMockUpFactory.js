@@ -9,7 +9,8 @@ angular.module('boontingApp')
 							{id:6,name:'Hulk',phone:'0912038542',email:'sit@gmail.com'},
 							{id:7,name:'Groot',phone:'2458349810',email:'khan@gmail.com'},  
 							{id:8,name:'wanda ',phone:'1230903323',email:'yah@gmail.com'},
-							{id:9,name:'Vision',phone:'3984598100',email:'eiei@gmail.com'} ];
+							{id:9,name:'Vision',phone:'3984598100',email:'eiei@gmail.com'} 
+						];
 		return customers;
 	}
 	const getSalesOrders = function(){
@@ -35,9 +36,65 @@ angular.module('boontingApp')
 						];
 		return locations;
 	}
+	const getMaterialItems = function(){
+		var materialItems = [ 
+								{id:1,name:'Glass',unitPrice:5},
+								{id:2,name:'Plasstic',unitPrice:2},
+								{id:3,name:'Paper',unitPrice:1},
+								{id:4,name:'Aluminum',unitPrice:10},
+								{id:5,name:'Battery',unitPrice:8}
+							];
+		return materialItems;
+	}
+	const getSalesOrderOptions = function(){
+		var status = [
+						'WatingConfirmFromSeller', 
+						'ConfirmSalesOrder',
+						'Traveling',
+						'WatingChecked',
+						'Completed'
+						];
+		return status;
+	}
+	const getSalesOrderByCustomers = function(){
+		var groupSalesorderByCustomers = [ 
+			{1 : [ 	{id:1,date:'2018-01-12'},
+					{id:2,date:'2018-01-12'},
+					{id:3,date:'2018-02-12'},
+					{id:4,date:'2018-03-12'},
+					{id:5,date:'2018-02-12'},
+					{id:6,date:'2018-05-12'},
+					{id:7,date:'2018-06-12'},
+					{id:8,date:'2018-03-12'}] },
+			{2 : [{id:1,date:'2018-01-12'},{id:2,date:'2018-03-12'},{id:3,date:'2018-04-12'},{id:4,date:'2018-02-12'} ] },
+			{3 : [{id:1,date:'2018-05-12'},{id:2,date:'2018-05-12'},{id:3,date:'2018-02-12'},{id:4,date:'2018-07-12'},{id:5,date:'2018-04-12'},{id:6,date:'2018-02-12'}] },
+			{4 : [{id:1,date:'2018-04-12'},{id:2,date:'2018-02-12'},{id:3,date:'2018-01-12'},{id:4,date:'2018-05-12'},{id:5,date:'2018-03-12'},{id:6,date:'2018-07-12'}] }
+		]; 
+		return groupSalesorderByCustomers;
+	}
+	const getSalesOrderByLocations = function(){
+		var groupSalesorderByLocations = { 
+			1 : [ 	{id:1,date:'2018-01-12'},
+					{id:2,date:'2018-01-12'},
+					{id:3,date:'2018-02-12'},
+					{id:4,date:'2018-03-12'},
+					{id:5,date:'2018-02-12'},
+					{id:6,date:'2018-05-12'},
+					{id:7,date:'2018-06-12'},
+					{id:8,date:'2018-03-12'}] ,
+			2 : [{id:1,date:'2018-01-12'},{id:2,date:'2018-03-12'},{id:3,date:'2018-04-12'},{id:4,date:'2018-02-12'} ] ,
+			3 : [{id:1,date:'2018-05-12'},{id:2,date:'2018-05-12'},{id:3,date:'2018-02-12'},{id:4,date:'2018-07-12'},{id:5,date:'2018-04-12'},{id:6,date:'2018-02-12'}] ,
+			4 : [{id:1,date:'2018-04-12'},{id:2,date:'2018-02-12'},{id:3,date:'2018-01-12'},{id:4,date:'2018-05-12'},{id:5,date:'2018-03-12'},{id:6,date:'2018-07-12'}] 
+		}; 
+		return groupSalesorderByCustomers;
+	}
 	return {
 		getCustomers 	: getCustomers,
 		getSalesOrders 	: getSalesOrders,
-		getLocations 	: getLocations
+		getLocations 	: getLocations,
+		getMaterialItems: getMaterialItems,
+		getSalesOrderOptions : getSalesOrderOptions,
+		getSalesOrderByCustomers : getSalesOrderByCustomers,
+		getSalesOrderByLocations : getSalesOrderByLocations
 	}
 }])

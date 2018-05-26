@@ -1,13 +1,24 @@
 <md-content>
-    <md-toolbar class="md-grey">
+    <md-toolbar class="md-grey" style="background-color:rgb(191, 29, 96) !important;">
         <div class="md-toolbar-tools">
             <h2>Report</h2>
+            <form name="reportSelectedForm" style="padding-left: 1rem;padding-top: 1rem;">
+                <div layout-gt-md="row" layout-md="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <md-select ng-model="ctrl.wrapper.reportSelected">
+                            <md-option ng-repeat="option in ctrl.wrapper.reportOptions" value="{{option.value}}">
+                                {{option.label}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </form>
         </div>
     </md-toolbar>
 </md-content>
 <md-content>
-	<div style="width: 100%;">
-	    <table 	st-table="ctrl.wrapper.displaySalesOrders" 
+    <div style="width: 100%;">
+        <!-- <table 	st-table="ctrl.wrapper.displaySalesOrders" 
 	    		st-safe-src="ctrl.wrapper.salesOrders" 
 	    		class="table table-striped" 
 	    		style="border-left: 1px solid #dddbda;border-right:1px solid #dddbda;">
@@ -36,6 +47,6 @@
 	                </td>
 	            </tr>
 	        </tfoot>
-	    </table>
-	</div>
+	    </table> -->
+    </div>
 </md-content>
