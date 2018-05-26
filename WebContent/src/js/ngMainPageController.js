@@ -23,24 +23,24 @@ angular.module('boontingApp')
                         it.background = "red";
                         it.span.row = it.span.col = 2;
                         it.title="Customer"
-                        it.link ="/#!/customer";
+                        it.link ="/Boonting/#!/customer";
                         break;
 
                     case 2:
                         it.background = "green";
                         it.title = "Sales Order"
-                        it.link ="/#!/salesOrder";
+                        it.link ="/Boonting/#!/salesOrder";
                         break;
                     case 3:
                         it.background = "darkBlue";
                         it.title = "Location";
-                        it.link ="/#!/location";
+                        it.link ="/Boonting/#!/location";
                         break;
                     case 4:
                         it.background = "blue";
                         it.span.col = 2;
                         it.title = "Report"
-                        it.link ="/#!/report";
+                        it.link ="/Boonting/#!/report";
                         break;
 
                     // case 5:
